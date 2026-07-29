@@ -1,0 +1,18 @@
+{
+  "name": "nandan-ai",
+  "version": "1.0.0",
+  "description": "NANDAN AI - All in One AI Tools Directory",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y serve .",
+    "start": "npx -y serve ."
+  },
+  "keywords": [
+    "ai",
+    "ai-tools",
+    "directory",
+    "nandan-ai"
+  ],
+  "author": "Nandan",
+  "license": "MIT"
+}

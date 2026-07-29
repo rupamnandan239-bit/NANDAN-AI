@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <title>NANDAN AI - ALL IN ONE AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background-color: #09090b;
+      color: #fafafa;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Fixed Video Background */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Overlay container */
+    .app-viewport {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+    }
+
+    /* Glassmorphism styling for cards */
+    .glass-panel {
+      background: rgba(24, 24, 27, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .glass-header {
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card {
+      background: rgba(24, 24, 27, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover {
+      background: rgba(24, 24, 27, 0.85);
+      border-color: rgba(99, 102, 241, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Hide scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(9, 9, 11, 0.8);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4f46e5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Background Video -->
+  <video id="bg-video" autoplay loop muted playsinline>
+    <source src="background.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Foreground AI Tools Web Application -->
+  <div class="app-viewport flex flex-col">
+
+    <!-- Header Component -->
+    <header class="glass-header sticky top-0 z-50 h-16 px-6 flex items-center justify-between">
+      <div class="flex items-center gap-8">
+        <a href="#" onclick="showSection('home')" class="flex items-center gap-3 group">
+          <img src="logo.jpg" alt="NANDAN AI Logo" class="w-10 h-10 rounded-xl object-cover shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform border border-cyan-500/30" />
+          <div class="flex flex-col">
+            <span class="font-extrabold text-xl tracking-wider text-white leading-none">NANDAN AI</span>
+            <span class="text-[9px] font-bold tracking-widest text-cyan-400 uppercase mt-0.5">ALL IN ONE AI</span>
+          </div>
+        </a>
+        
+        <div class="relative w-96 hidden md:block">
+          <span class="absolute inset-y-0 left-3 flex items-center text-zinc-400">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </span>
+          <input 
+            type="text" 
+            id="globalSearch"
+            oninput="handleGlobalSearch(this.value)"
+            placeholder="Search 2,400+ AI tools..." 
+            class="w-full bg-zinc-900/80 border border-zinc-700/60 rounded-md py-2 pl-10 pr-4 text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+          />
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button onclick="showSection('directory')" class="text-sm font-medium text-zinc-300 hover:text-indigo-400 hidden sm:block transition-colors">
+          All Tools
+        </button>
+        <button onclick="openSubmitModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-lg shadow-indigo-600/30">
+          Submit Tool
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Layout with Sidebar and Content -->
+    <div class="flex flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 gap-6">
+
+      <!-- Sidebar Component -->
+      <aside class="w-64 glass-panel rounded-2xl p-5 hidden lg:flex flex-col gap-6 shrink-0 h-[calc(100vh-6rem)] sticky top-20">
+        <div>
+          <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Navigation</h3>
+          <ul class="space-y-1">
+            <li>
+              <button onclick="showSection('home')" id="nav-home" class="w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors">
+                <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                Dashboard
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('directory')" id="nav-directory" class="w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors">
+                <i data-lucide="grid" class="w-4 h-4"></i>
+                All Tools
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Categories</h3>
+          <ul class="space-y-1 text-sm text-zinc-300" id="sidebar-categories">
+            <!-- Dynamic Category Links -->
+          </ul>
+        </div>
+
+        <div class="mt-auto pt-4 border-t border-zinc-800/80">
+          <div class="bg-indigo-950/40 border border-indigo-500/20 rounded-xl p-3 flex items-center gap-3">
+            <img src="logo.jpg" alt="NANDAN AI" class="w-8 h-8 rounded-lg object-cover border border-cyan-500/40 shrink-0" />
+            <div>
+              <p class="text-xs text-indigo-300 font-semibold leading-tight">NANDAN AI</p>
+              <p class="text-[10px] text-zinc-400 mt-0.5">ALL IN ONE AI</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="flex-1 space-y-8 min-w-0">
+
+        <!-- HOME SECTION -->
+        <div id="section-home" class="space-y-8">
+          
+          <!-- Hero Dashboard Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            
+            <!-- Featured Tool of the Week -->
+            <div id="featured-card-container" class="md:col-span-2 md:row-span-3 glass-panel border-indigo-500/30 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group shadow-2xl">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Trending Tool 1 -->
+            <div id="trending-1" class="md:col-span-1 md:row-span-2 glass-card rounded-2xl p-5 flex flex-col">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Trending Tool 2 -->
+            <div id="trending-2" class="md:col-span-1 md:row-span-2 glass-card rounded-2xl p-5 flex flex-col">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Statistics Banner -->
+            <div class="md:col-span-2 glass-panel rounded-2xl p-4 flex items-center justify-around">
+              <div class="text-center">
+                <div class="text-2xl font-bold text-white" id="stat-tools-count">20</div>
+                <div class="text-[10px] text-zinc-400 uppercase tracking-wider mt-0.5">Total Tools</div>
+              </div>
+              <div class="h-8 w-px bg-zinc-800"></div>
+              <div class="text-center">
+                <div class="text-2xl font-bold text-white">5</div>
+                <div class="text-[10px] text-zinc-400 uppercase tracking-wider mt-0.5">Categories</div>
+              </div>
+              <div class="h-8 w-px bg-zinc-800"></div>
+              <div class="text-center">
+                <div class="text-2xl font-bold text-indigo-400">12k+</div>
+                <div class="text-[10px] text-zinc-400 uppercase tracking-wider mt-0.5">User Reviews</div>
+              </div>
+            </div>
+
+            <!-- Popular Categories Grid -->
+            <div class="md:col-span-3 glass-panel rounded-2xl p-6">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                  <i data-lucide="layers" class="w-5 h-5 text-indigo-400"></i>
+                  Popular Categories
+                </h3>
+                <button onclick="showSection('directory')" class="text-xs text-indigo-400 hover:text-indigo-300 font-medium">View All &rarr;</button>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="home-categories-grid">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
+
+            <!-- Newsletter / Community Subscription -->
+            <div class="md:col-span-1 glass-panel border-indigo-500/30 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+              <div class="w-12 h-12 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400 mb-3 border border-indigo-500/30">
+                <i data-lucide="sparkles" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-bold text-white">Stay Updated</h4>
+              <p class="text-xs text-zinc-400 mt-2 mb-4">Top AI tools delivered straight to your inbox weekly.</p>
+              <input type="email" placeholder="email@domain.com" class="w-full bg-zinc-900/90 border border-zinc-700/60 rounded-lg px-3 py-2 text-xs mb-2 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-indigo-500" />
+              <button onclick="alert('Thanks for subscribing to NANDAN AI!')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-lg text-xs font-bold transition-colors shadow-md">
+                Join 50k+ Readers
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Quick Directory Preview -->
+          <div class="glass-panel rounded-2xl p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-white text-xl">Top AI Tools</h3>
+              <button onclick="showSection('directory')" class="text-sm text-indigo-400 hover:underline font-medium">Explore All 20 Tools &rarr;</button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="home-tools-grid">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- DIRECTORY PAGE SECTION -->
+        <div id="section-directory" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-6 rounded-2xl">
+            <div>
+              <h1 class="text-3xl font-bold tracking-tight text-white" id="dir-title">All AI Tools</h1>
+              <p class="text-zinc-400 text-sm mt-1" id="dir-count">Loading tools...</p>
+            </div>
+            
+            <div class="relative w-full sm:w-80">
+              <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400"></i>
+              <input 
+                type="text" 
+                id="dirSearch"
+                oninput="renderDirectoryTools()"
+                placeholder="Search tools or keywords..." 
+                class="w-full bg-zinc-900/90 border border-zinc-700/60 rounded-lg py-2 pl-9 pr-4 text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+          </div>
+
+          <!-- Filters Row -->
+          <div class="flex flex-wrap items-center justify-between gap-4 glass-panel p-4 rounded-xl">
+            <!-- Category Filter Pills -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 max-w-full" id="category-pills">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Pricing Filter Radios -->
+            <div class="flex items-center gap-4 text-xs text-zinc-400 shrink-0">
+              <span class="font-semibold text-zinc-300">Pricing:</span>
+              <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+                <input type="radio" name="pricing" value="all" checked onchange="setPricingFilter('all')" class="text-indigo-600 focus:ring-indigo-500" /> All
+              </label>
+              <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+                <input type="radio" name="pricing" value="Free" onchange="setPricingFilter('Free')" class="text-indigo-600 focus:ring-indigo-500" /> Free
+              </label>
+              <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+                <input type="radio" name="pricing" value="Freemium" onchange="setPricingFilter('Freemium')" class="text-indigo-600 focus:ring-indigo-500" /> Freemium
+              </label>
+              <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+                <input type="radio" name="pricing" value="Paid" onchange="setPricingFilter('Paid')" class="text-indigo-600 focus:ring-indigo-500" /> Paid
+              </label>
+            </div>
+          </div>
+
+          <!-- Tools Cards Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="directory-tools-grid">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- TOOL DETAILS MODAL -->
+  <div id="tool-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel max-w-2xl w-full rounded-2xl p-6 sm:p-8 relative max-h-[90vh] overflow-y-auto border-indigo-500/40 shadow-2xl">
+      <button onclick="closeModal('tool-modal')" class="absolute top-4 right-4 text-zinc-400 hover:text-white p-2 rounded-lg bg-zinc-800/50">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div id="modal-tool-content">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT TOOL MODAL -->
+  <div id="submit-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel max-w-lg w-full rounded-2xl p-6 sm:p-8 relative border-indigo-500/40 shadow-2xl">
+      <button onclick="closeModal('submit-modal')" class="absolute top-4 right-4 text-zinc-400 hover:text-white p-2 rounded-lg bg-zinc-800/50">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+        <i data-lucide="plus-circle" class="w-6 h-6 text-indigo-400"></i>
+        Submit an AI Tool
+      </h2>
+      <p class="text-xs text-zinc-400 mt-1 mb-6">Add your software to NANDAN AI directory for review.</p>
+
+      <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-zinc-300 mb-1">Tool Name</label>
+          <input type="text" required id="sub-name" placeholder="e.g. My AI Assistant" class="w-full bg-zinc-900 border border-zinc-700/80 rounded-lg p-2.5 text-sm text-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-zinc-300 mb-1">Website URL</label>
+          <input type="url" required id="sub-url" placeholder="https://example.com" class="w-full bg-zinc-900 border border-zinc-700/80 rounded-lg p-2.5 text-sm text-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-zinc-300 mb-1">Category</label>
+            <select id="sub-category" class="w-full bg-zinc-900 border border-zinc-700/80 rounded-lg p-2.5 text-sm text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+              <option value="chatbots">Chatbots</option>
+              <option value="image-generation">Image Generation</option>
+              <option value="coding">Coding</option>
+              <option value="writing">Writing</option>
+              <option value="video">Video</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-zinc-300 mb-1">Pricing Model</label>
+            <select id="sub-pricing" class="w-full bg-zinc-900 border border-zinc-700/80 rounded-lg p-2.5 text-sm text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+              <option value="Freemium">Freemium</option>
+              <option value="Free">Free</option>
+              <option value="Paid">Paid</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-zinc-300 mb-1">Description</label>
+          <textarea required id="sub-desc" rows="3" placeholder="Briefly describe what this AI tool does..." class="w-full bg-zinc-900 border border-zinc-700/80 rounded-lg p-2.5 text-sm text-white focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-lg text-sm transition-colors shadow-lg shadow-indigo-600/30">
+          Submit for Review
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Application & Canvas Animation Scripts -->
+  <script>
+    // DATA STORE FROM SEED DATABASE
+    const CATEGORIES = [
+      { id: 1, slug: 'chatbots', name: 'Chatbots', description: 'Conversational AI assistants.', icon: 'message-square' },
+      { id: 2, slug: 'image-generation', name: 'Image Generation', description: 'AI image generators and editors.', icon: 'image' },
+      { id: 3, slug: 'coding', name: 'Coding', description: 'Code assistants and developer tools.', icon: 'code' },
+      { id: 4, slug: 'writing', name: 'Writing & SEO', description: 'Tools for writing and content creation.', icon: 'pen-tool' },
+      { id: 5, slug: 'video', name: 'Video Editing', description: 'Video creation and editing powered by AI.', icon: 'video' },
+    ];
+
+    let TOOLS = [
+      { id: 1, name: 'ChatGPT', slug: 'chatgpt', description: 'OpenAI\'s flagship conversational AI model capable of complex reasoning, coding, and writing.', websiteUrl: 'https://chat.openai.com', pricingModel: 'Freemium', categoryId: 1, isFeatured: true, rating: 4.9 },
+      { id: 2, name: 'Claude', slug: 'claude', description: 'Anthropic\'s advanced AI assistant built for deep analysis, long context handling, and natural conversation.', websiteUrl: 'https://claude.ai', pricingModel: 'Freemium', categoryId: 1, isFeatured: true, rating: 4.9 },
+      { id: 3, name: 'Midjourney', slug: 'midjourney', description: 'Incredible AI image generator producing photorealistic and artistic visual imagery via Discord.', websiteUrl: 'https://midjourney.com', pricingModel: 'Paid', categoryId: 2, isFeatured: true, rating: 4.8 },
+      { id: 4, name: 'DALL-E 3', slug: 'dall-e-3', description: 'Image generation integrated with ChatGPT to translate detailed text prompts into images.', websiteUrl: 'https://openai.com/dall-e-3', pricingModel: 'Paid', categoryId: 2, isFeatured: false, rating: 4.7 },
+      { id: 5, name: 'GitHub Copilot', slug: 'github-copilot', description: 'Your AI pair programmer suggesting complete code snippets directly inside your IDE.', websiteUrl: 'https://github.com/features/copilot', pricingModel: 'Paid', categoryId: 3, isFeatured: true, rating: 4.8 },
+      { id: 6, name: 'Cursor', slug: 'cursor', description: 'The AI-first code editor designed for pair-programming, codebase refactoring, and automated code generation.', websiteUrl: 'https://cursor.sh', pricingModel: 'Freemium', categoryId: 3, isFeatured: true, rating: 4.9 },
+      { id: 7, name: 'Jasper', slug: 'jasper', description: 'AI copywriter for enterprise marketing teams to generate high-converting copy and articles.', websiteUrl: 'https://jasper.ai', pricingModel: 'Paid', categoryId: 4, isFeatured: false, rating: 4.6 },
+      { id: 8, name: 'Copy.ai', slug: 'copy-ai', description: 'AI generated copywriting platform built to streamline blog posts, ad creative, and marketing workflows.', websiteUrl: 'https://copy.ai', pricingModel: 'Freemium', categoryId: 4, isFeatured: false, rating: 4.5 },
+      { id: 9, name: 'Synthesia', slug: 'synthesia', description: 'Create studio-quality video presentations with photorealistic AI avatars and multi-language voiceovers.', websiteUrl: 'https://synthesia.io', pricingModel: 'Paid', categoryId: 5, isFeatured: true, rating: 4.8 },
+      { id: 10, name: 'Runway', slug: 'runway', description: 'Advancing creativity with AI video generation, motion synthesis, and real-time visual effects.', websiteUrl: 'https://runwayml.com', pricingModel: 'Freemium', categoryId: 5, isFeatured: true, rating: 4.9 },
+      { id: 11, name: 'Gemini', slug: 'gemini', description: 'Google\'s most capable multimodal AI model integrated across search, workspace, and coding apps.', websiteUrl: 'https://gemini.google.com', pricingModel: 'Freemium', categoryId: 1, isFeatured: true, rating: 4.7 },
+      { id: 12, name: 'Perplexity AI', slug: 'perplexity', description: 'AI powered conversational search engine delivering instant answers complete with web citations.', websiteUrl: 'https://perplexity.ai', pricingModel: 'Freemium', categoryId: 1, isFeatured: false, rating: 4.8 },
+      { id: 13, name: 'Stable Diffusion', slug: 'stable-diffusion', description: 'Open source latent text-to-image diffusion model running locally or in the cloud.', websiteUrl: 'https://stability.ai', pricingModel: 'Free', categoryId: 2, isFeatured: false, rating: 4.7 },
+      { id: 14, name: 'Leonardo AI', slug: 'leonardo-ai', description: 'Create production-quality game assets, concept art, and high resolution illustrations.', websiteUrl: 'https://leonardo.ai', pricingModel: 'Freemium', categoryId: 2, isFeatured: false, rating: 4.8 },
+      { id: 15, name: 'Tabnine', slug: 'tabnine', description: 'Contextual AI code completion assistant keeping your source code private and secure.', websiteUrl: 'https://tabnine.com', pricingModel: 'Freemium', categoryId: 3, isFeatured: false, rating: 4.5 },
+      { id: 16, name: 'Codeium', slug: 'codeium', description: 'Free AI code acceleration toolkit featuring autocomplete, chat, and multi-file search.', websiteUrl: 'https://codeium.com', pricingModel: 'Freemium', categoryId: 3, isFeatured: false, rating: 4.8 },
+      { id: 17, name: 'GrammarlyGO', slug: 'grammarlygo', description: 'On-demand generative AI communication assistance to compose, rewrite, and reply.', websiteUrl: 'https://grammarly.com', pricingModel: 'Freemium', categoryId: 4, isFeatured: false, rating: 4.6 },
+      { id: 18, name: 'Notion AI', slug: 'notion-ai', description: 'Access generative AI capabilities directly inside your Notion workspace pages and databases.', websiteUrl: 'https://notion.so', pricingModel: 'Paid', categoryId: 4, isFeatured: false, rating: 4.7 },
+      { id: 19, name: 'HeyGen', slug: 'heygen', description: 'AI video generator for business presentations, marketing, and localized video avatar translations.', websiteUrl: 'https://heygen.com', pricingModel: 'Freemium', categoryId: 5, isFeatured: false, rating: 4.7 },
+      { id: 20, name: 'Pika', slug: 'pika', description: 'Generative AI platform that brings ideas to life with dynamic video clips and animations.', websiteUrl: 'https://pika.art', pricingModel: 'Free', categoryId: 5, isFeatured: false, rating: 4.6 }
+    ];
+
+    // State Variables
+    let activeCategorySlug = null;
+    let activePricingFilter = 'all';
+
+    // RENDER FUNCTIONS
+    function initApp() {
+      renderSidebarCategories();
+      renderHomeComponents();
+      renderCategoryPills();
+      renderDirectoryTools();
+      lucide.createIcons();
+    }
+
+    function showSection(section) {
+      document.getElementById('section-home').classList.add('hidden');
+      document.getElementById('section-directory').classList.add('hidden');
+      
+      const navHome = document.getElementById('nav-home');
+      const navDir = document.getElementById('nav-directory');
+
+      if (section === 'home') {
+        document.getElementById('section-home').classList.remove('hidden');
+        navHome.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
+        navDir.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
+      } else {
+        document.getElementById('section-directory').classList.remove('hidden');
+        navDir.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
+        navHome.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderSidebarCategories() {
+      const el = document.getElementById('sidebar-categories');
+      el.innerHTML = CATEGORIES.map(cat => `
+        <li>
+          <button onclick="filterByCategory('${cat.slug}')" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-zinc-800/50 hover:text-white transition-colors flex items-center justify-between text-xs">
+            <span>${cat.name}</span>
+            <span class="text-[10px] text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded">${TOOLS.filter(t => t.categoryId === cat.id).length}</span>
+          </button>
+        </li>
+      `).join('');
+    }
+
+    function renderHomeComponents() {
+      const featured = TOOLS.find(t => t.isFeatured) || TOOLS[0];
+      const trending = TOOLS.filter(t => t.id !== featured.id).slice(0, 2);
+
+      // Render Featured
+      document.getElementById('featured-card-container').innerHTML = `
+        <div class="relative z-10">
+          <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md border border-indigo-500/30 shadow-sm">
+            Tool of the Week
+          </span>
+          <h2 class="text-3xl font-bold mt-4 text-white">${featured.name}</h2>
+          <p class="text-zinc-300 mt-2 text-sm max-w-sm leading-relaxed">${featured.description}</p>
+        </div>
+        <div class="flex items-center gap-3 z-10 mt-6">
+          <a href="${featured.websiteUrl}" target="_blank" class="bg-white text-black px-5 py-2 rounded-lg text-sm font-semibold hover:bg-zinc-200 transition-all shadow-lg">
+            Try Now
+          </a>
+          <button onclick="openToolModal(${featured.id})" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm font-semibold border border-white/10 transition-colors text-white">
+            Details
+          </button>
+        </div>
+        <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl group-hover:scale-125 transition-transform pointer-events-none"></div>
+      `;
+
+      // Render Trending 1 & 2
+      trending.forEach((tool, idx) => {
+        const container = document.getElementById(`trending-${idx + 1}`);
+        container.innerHTML = `
+          <div class="flex items-center justify-between mb-3">
+            <div class="w-10 h-10 rounded-xl ${idx === 0 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'} flex items-center justify-center font-bold text-lg">
+              ${tool.name.charAt(0)}
+            </div>
+            <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium">${tool.pricingModel}</span>
+          </div>
+          <h4 class="font-bold text-white hover:text-indigo-400 transition-colors cursor-pointer" onclick="openToolModal(${tool.id})">${tool.name}</h4>
+          <p class="text-xs text-zinc-400 mt-1 line-clamp-2">${tool.description}</p>
+          <div class="mt-auto pt-4 flex items-center justify-between">
+            <span class="text-xs font-semibold ${idx === 0 ? 'text-emerald-400' : 'text-blue-400'}">★ ${tool.rating}</span>
+            <button onclick="openToolModal(${tool.id})" class="text-xs text-indigo-400 hover:underline">View Details</button>
+          </div>
+        `;
+      });
+
+      // Categories Grid
+      document.getElementById('home-categories-grid').innerHTML = CATEGORIES.slice(0, 6).map(cat => `
+        <button onclick="filterByCategory('${cat.slug}')" class="p-3.5 bg-zinc-900/80 rounded-xl border border-zinc-800 hover:border-indigo-500/50 hover:bg-zinc-800/80 transition-all text-center group">
+          <div class="font-semibold text-sm text-zinc-200 group-hover:text-indigo-300">${cat.name}</div>
+          <div class="text-[10px] text-zinc-500 mt-0.5">${TOOLS.filter(t => t.categoryId === cat.id).length} tools</div>
+        </button>
+      `).join('');
+
+      // Top Tools Quick Grid
+      document.getElementById('home-tools-grid').innerHTML = TOOLS.slice(0, 6).map(createToolCardHTML).join('');
+    }
+
+    function createToolCardHTML(tool) {
+      const category = CATEGORIES.find(c => c.id === tool.categoryId);
+      return `
+        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-start justify-between gap-3 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 flex items-center justify-center font-bold text-lg shrink-0">
+                  ${tool.name.charAt(0)}
+                </div>
+                <div>
+                  <h4 class="font-semibold text-white group-hover:text-indigo-400 transition-colors cursor-pointer" onclick="openToolModal(${tool.id})">${tool.name}</h4>
+                  <span class="text-xs text-zinc-400">${category ? category.name : ''}</span>
+                </div>
+              </div>
+              <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">${tool.pricingModel}</span>
+            </div>
+            <p class="text-xs text-zinc-300 line-clamp-3 leading-relaxed mt-1">${tool.description}</p>
+          </div>
+          <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+            <div class="flex items-center gap-1 text-xs font-semibold text-amber-400">
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+              <span>${tool.rating}</span>
+            </div>
+            <button onclick="openToolModal(${tool.id})" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
+              Details &rarr;
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCategoryPills() {
+      const container = document.getElementById('category-pills');
+      const allActive = !activeCategorySlug;
+
+      let html = `
+        <button onclick="filterByCategory(null)" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${allActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+          All Categories
+        </button>
+      `;
+
+      html += CATEGORIES.map(cat => {
+        const isActive = activeCategorySlug === cat.slug;
+        return `
+          <button onclick="filterByCategory('${cat.slug}')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${isActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+            ${cat.name}
+          </button>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+    }
+
+    function filterByCategory(slug) {
+      activeCategorySlug = slug;
+      showSection('directory');
+      renderCategoryPills();
+      renderDirectoryTools();
+
+      const cat = CATEGORIES.find(c => c.slug === slug);
+      document.getElementById('dir-title').innerText = cat ? cat.name : "All AI Tools";
+    }
+
+    function setPricingFilter(pricing) {
+      activePricingFilter = pricing;
+      renderDirectoryTools();
+    }
+
+    function handleGlobalSearch(query) {
+      if (query.trim().length > 0) {
+        document.getElementById('dirSearch').value = query;
+        showSection('directory');
+        renderDirectoryTools();
+      }
+    }
+
+    function renderDirectoryTools() {
+      const query = document.getElementById('dirSearch').value.toLowerCase();
+      const currentCat = CATEGORIES.find(c => c.slug === activeCategorySlug);
+
+      const filtered = TOOLS.filter(t => {
+        const matchesCategory = currentCat ? t.categoryId === currentCat.id : true;
+        const matchesPricing = activePricingFilter === 'all' ? true : t.pricingModel.toLowerCase() === activePricingFilter.toLowerCase();
+        const matchesSearch = t.name.toLowerCase().includes(query) || t.description.toLowerCase().includes(query);
+        return matchesCategory && matchesPricing && matchesSearch;
+      });
+
+      document.getElementById('dir-count').innerText = `${filtered.length} ${filtered.length === 1 ? 'tool' : 'tools'} available`;
+      const grid = document.getElementById('directory-tools-grid');
+
+      if (filtered.length > 0) {
+        grid.innerHTML = filtered.map(createToolCardHTML).join('');
+      } else {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-16 glass-panel rounded-2xl border-dashed">
+            <i data-lucide="search-x" class="w-10 h-10 text-zinc-500 mx-auto mb-3"></i>
+            <h3 class="text-lg font-semibold text-white">No tools found</h3>
+            <p class="text-xs text-zinc-400 mt-1">Try adjusting your category, pricing, or search term.</p>
+          </div>
+        `;
+      }
+      lucide.createIcons();
+    }
+
+    // MODAL CONTROL
+    function openToolModal(id) {
+      const tool = TOOLS.find(t => t.id === id);
+      if (!tool) return;
+
+      const category = CATEGORIES.find(c => c.id === tool.categoryId);
+      const content = document.getElementById('modal-tool-content');
+
+      content.innerHTML = `
+        <div class="flex items-start gap-4 mb-6">
+          <div class="w-16 h-16 rounded-2xl bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 flex items-center justify-center font-bold text-3xl shadow-lg shrink-0">
+            ${tool.name.charAt(0)}
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-indigo-400 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-500/30 uppercase tracking-wider">${category ? category.name : ''}</span>
+              <span class="text-xs font-medium text-zinc-400 bg-zinc-800 px-2 py-0.5 rounded">${tool.pricingModel}</span>
+            </div>
+            <h2 class="text-2xl font-bold text-white mt-1">${tool.name}</h2>
+            <div class="flex items-center gap-1 text-xs font-semibold text-amber-400 mt-1">
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+              <span>${tool.rating} / 5.0 Rating</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-sm text-zinc-300 leading-relaxed mb-6 bg-zinc-900/60 p-4 rounded-xl border border-zinc-800">${tool.description}</p>
+
+        <div class="flex items-center gap-3">
+          <a href="${tool.websiteUrl}" target="_blank" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-center font-bold py-2.5 rounded-xl text-sm transition-colors shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
+            <span>Visit Official Website</span>
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+          </a>
+          <button onclick="closeModal('tool-modal')" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors">
+            Close
+          </button>
+        </div>
+      `;
+
+      document.getElementById('tool-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function openSubmitModal() {
+      document.getElementById('submit-modal').classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('sub-name').value;
+      const url = document.getElementById('sub-url').value;
+      const categorySlug = document.getElementById('sub-category').value;
+      const pricingModel = document.getElementById('sub-pricing').value;
+      const description = document.getElementById('sub-desc').value;
+
+      const cat = CATEGORIES.find(c => c.slug === categorySlug);
+      const newTool = {
+        id: Date.now(),
+        name,
+        slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        description,
+        websiteUrl: url,
+        pricingModel,
+        categoryId: cat ? cat.id : 1,
+        isFeatured: false,
+        rating: 5.0
+      };
+
+      TOOLS.unshift(newTool);
+      document.getElementById('stat-tools-count').innerText = TOOLS.length;
+
+      alert(`Success! "${name}" has been added to NANDAN AI directory.`);
+      closeModal('submit-modal');
+      renderDirectoryTools();
+      renderHomeComponents();
+    }
+
+    // INITIALIZATION
+    window.addEventListener('DOMContentLoaded', () => {
+      initApp();
+    });
+  </script>
+
+
+</body>
+</html>
