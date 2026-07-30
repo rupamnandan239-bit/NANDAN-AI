@@ -355,7 +355,7 @@ tools.forEach((tool, index) => {
           <!-- Hero Details Content -->
           <div class="p-6 sm:p-8 -mt-20 relative z-10 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6">
             <div class="flex items-start gap-4">
-              <img src="${tool.logoUrl || tool.logo}" alt="${tool.name} Logo" 
+              <img src="${relPath}${tool.logoUrl || tool.logo}" alt="${tool.name} Logo" 
                    loading="lazy" decoding="async" width="80" height="80"
                    class="w-20 h-20 rounded-2xl bg-zinc-900 border-2 border-indigo-500/50 p-2 object-contain shadow-xl shrink-0 backdrop-blur-md"
                    onerror="this.src='${relPath}logo.jpg'" />
@@ -644,7 +644,7 @@ tools.forEach((tool, index) => {
                   <div class="flex items-start justify-between gap-3 pb-3">
                     <div class="flex items-center gap-3">
                       <a href="${relPath}tools/${rel.slug}/index.html">
-                        <img src="${rel.logoUrl || rel.logo}" alt="${rel.name}" loading="lazy" width="40" height="40"
+                        <img src="${relPath}${rel.logoUrl || rel.logo}" alt="${rel.name}" loading="lazy" width="40" height="40"
                              class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" 
                              onerror="this.src='${relPath}logo.jpg'" />
                       </a>
@@ -735,7 +735,7 @@ tools.forEach((tool, index) => {
   <!-- Sticky Mobile Bottom Bar -->
   <div class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-800/80 p-3 flex items-center justify-between gap-3 shadow-2xl">
     <div class="flex items-center gap-2.5 min-w-0">
-      <img src="${tool.logoUrl || tool.logo}" alt="${tool.name}" class="w-8 h-8 rounded-lg object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 shrink-0" onerror="this.src='${relPath}logo.jpg'" />
+      <img src="${relPath}${tool.logoUrl || tool.logo}" alt="${tool.name}" class="w-8 h-8 rounded-lg object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 shrink-0" onerror="this.src='${relPath}logo.jpg'" />
       <div class="truncate">
         <p class="text-xs font-bold text-white truncate">${tool.name}</p>
         <p class="text-[10px] text-zinc-400 truncate">${category.name}</p>
@@ -979,7 +979,7 @@ categories.forEach(cat => {
                 <div class="flex items-start justify-between gap-3 pb-3">
                   <div class="flex items-center gap-3">
                     <a href="${relPath}tools/${tool.slug}/index.html">
-                      <img src="${tool.logoUrl || tool.logo}" alt="${tool.name}" loading="lazy" width="40" height="40"
+                      <img src="${relPath}${tool.logoUrl || tool.logo}" alt="${tool.name}" loading="lazy" width="40" height="40"
                            class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" 
                            onerror="this.src='${relPath}logo.jpg'" />
                     </a>
