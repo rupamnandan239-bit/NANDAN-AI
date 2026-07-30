@@ -20,35 +20,36 @@ function ensureDir(dirPath) {
 // Generate Common Header HTML
 function generateHeaderHTML(relativePathPrefix = '') {
   return `
-    <header class="glass-header sticky top-0 z-50 h-16 px-6 flex items-center justify-between">
-      <div class="flex items-center gap-8">
-        <a href="${relativePathPrefix}index.html" class="flex items-center gap-3 group">
+    <header class="glass-header sticky top-0 z-50 h-16 px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-8">
+      <div class="flex items-center gap-2 sm:gap-8 min-w-0 shrink-0 sm:shrink">
+        <a href="${relativePathPrefix}index.html" class="flex items-center gap-2 sm:gap-3 group shrink-0">
           <img src="${relativePathPrefix}logo.jpg" alt="NANDAN AI Logo"
-            class="w-10 h-10 rounded-xl object-cover shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform border border-cyan-500/30" />
+            class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-cover shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform border border-cyan-500/30" />
           <div class="flex flex-col">
-            <span class="font-extrabold text-xl tracking-wider text-white leading-none">NANDAN AI</span>
-            <span class="text-[9px] font-bold tracking-widest text-cyan-400 uppercase mt-0.5">ALL IN ONE AI</span>
+            <span class="font-extrabold text-sm sm:text-xl tracking-wider text-white leading-none">NANDAN AI</span>
+            <span class="text-[8px] sm:text-[9px] font-bold tracking-widest text-cyan-400 uppercase mt-0.5 hidden xs:block sm:block">ALL IN ONE AI</span>
           </div>
         </a>
-
-        <div class="relative w-96 hidden md:block">
-          <span class="absolute inset-y-0 left-3 flex items-center text-zinc-400">
-            <i data-lucide="search" class="w-4 h-4"></i>
-          </span>
-          <input type="text" id="globalHeaderSearch" onkeydown="if(event.key==='Enter') location.href='${relativePathPrefix}index.html?search=' + encodeURIComponent(this.value)"
-            placeholder="Search 2,400+ AI tools..."
-            class="w-full bg-zinc-900/80 border border-zinc-700/60 rounded-md py-2 pl-10 pr-4 text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
-        </div>
       </div>
 
-      <div class="flex items-center gap-4">
+      <div class="relative flex-1 max-w-[200px] xs:max-w-xs sm:max-w-md md:w-96 mx-1 sm:mx-0">
+        <span class="absolute inset-y-0 left-2.5 sm:left-3 flex items-center text-zinc-400 pointer-events-none">
+          <i data-lucide="search" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+        </span>
+        <input type="text" id="globalHeaderSearch" onkeydown="if(event.key==='Enter') location.href='${relativePathPrefix}index.html?search=' + encodeURIComponent(this.value)"
+          placeholder="Search AI tools..."
+          class="w-full bg-zinc-900/90 border border-zinc-700/60 rounded-lg py-1.5 sm:py-2 pl-8 sm:pl-10 pr-2.5 sm:pr-4 text-xs sm:text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-4 shrink-0">
         <a href="${relativePathPrefix}index.html#section-directory"
-          class="text-sm font-medium text-zinc-300 hover:text-indigo-400 hidden sm:block transition-colors">
+          class="text-sm font-medium text-zinc-300 hover:text-indigo-400 hidden lg:block transition-colors">
           All Tools
         </a>
         <button onclick="openSubmitModal()"
-          class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-lg shadow-indigo-600/30">
-          Submit Tool
+          class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-md text-xs sm:text-sm font-medium transition-colors shadow-lg shadow-indigo-600/30">
+          <span class="hidden sm:inline">Submit Tool</span>
+          <span class="sm:hidden">Submit</span>
         </button>
       </div>
     </header>
@@ -345,7 +346,7 @@ tools.forEach((tool, index) => {
         <!-- 2. Hero Banner & Tool Title Block -->
         <div class="glass-panel rounded-2xl overflow-hidden relative border-indigo-500/30 shadow-2xl">
           <!-- Hero Banner Background Image -->
-          <div class="h-48 sm:h-64 w-full relative overflow-hidden bg-gradient-to-r from-indigo-950 via-zinc-900 to-black">
+          <div class="h-32 sm:h-64 w-full relative overflow-hidden bg-gradient-to-r from-indigo-950 via-zinc-900 to-black">
             <img src="${tool.banner || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80'}" 
                  alt="${tool.name} Cover Banner" loading="lazy" decoding="async" width="1200" height="400"
                  class="w-full h-full object-cover opacity-40 mix-blend-overlay scale-105 hover:scale-100 transition-transform duration-700" />
@@ -353,34 +354,34 @@ tools.forEach((tool, index) => {
           </div>
 
           <!-- Hero Details Content -->
-          <div class="p-6 sm:p-8 -mt-20 relative z-10 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6">
-            <div class="flex items-start gap-4">
+          <div class="p-4 sm:p-8 -mt-12 sm:-mt-20 relative z-10 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 sm:gap-6">
+            <div class="flex items-start gap-3 sm:gap-4">
               <img src="${relPath}${tool.logoUrl || tool.logo}" alt="${tool.name} Logo" 
                    loading="lazy" decoding="async" width="80" height="80"
-                   class="w-20 h-20 rounded-2xl bg-zinc-900 border-2 border-indigo-500/50 p-2 object-contain shadow-xl shrink-0 backdrop-blur-md"
+                   class="w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-zinc-900 border-2 border-indigo-500/50 p-1.5 sm:p-2 object-contain shadow-xl shrink-0 backdrop-blur-md"
                    onerror="this.src='${relPath}logo.jpg'" />
               <div>
-                <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1 sm:mb-1.5">
                   <!-- 5. Category Badge -->
-                  <a href="${relPath}category/${category.slug}/index.html" class="text-xs font-semibold text-indigo-300 bg-indigo-950/80 hover:bg-indigo-900 px-2.5 py-0.5 rounded-md border border-indigo-500/30 uppercase tracking-wider transition-colors">
+                  <a href="${relPath}category/${category.slug}/index.html" class="text-[10px] sm:text-xs font-semibold text-indigo-300 bg-indigo-950/80 hover:bg-indigo-900 px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-md border border-indigo-500/30 uppercase tracking-wider transition-colors">
                     ${category.name}
                   </a>
                   <!-- 6. Pricing Badge -->
-                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-md ${tool.pricingModel === 'Free' ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/30' : tool.pricingModel === 'Freemium' ? 'bg-indigo-950/80 text-indigo-300 border border-indigo-500/30' : 'bg-amber-950/80 text-amber-300 border border-amber-500/30'}">
+                  <span class="text-[10px] sm:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-md ${tool.pricingModel === 'Free' ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/30' : tool.pricingModel === 'Freemium' ? 'bg-indigo-950/80 text-indigo-300 border border-indigo-500/30' : 'bg-amber-950/80 text-amber-300 border border-amber-500/30'}">
                     ${tool.pricingModel}
                   </span>
                 </div>
 
                 <!-- 4. Tool Name -->
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-none">${tool.name}</h1>
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-none">${tool.name}</h1>
 
                 <!-- 7. Star Rating -->
-                <div class="flex items-center gap-2 mt-2">
-                  <div class="flex items-center text-amber-400 text-sm">
-                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <div class="flex items-center gap-1.5 sm:gap-2 mt-1.5 sm:mt-2">
+                  <div class="flex items-center text-amber-400 text-xs sm:text-sm">
+                    <i data-lucide="star" class="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current"></i>
                     <span class="font-bold ml-1">${tool.rating}</span>
                   </div>
-                  <span class="text-xs text-zinc-400">(1,250+ user ratings)</span>
+                  <span class="text-[11px] sm:text-xs text-zinc-400">(1,250+ user ratings)</span>
                 </div>
               </div>
             </div>
@@ -388,7 +389,7 @@ tools.forEach((tool, index) => {
             <!-- Hero Primary CTA Button -->
             <div class="flex items-center gap-3 w-full sm:w-auto sm:self-center">
               <a href="${tool.officialWebsiteUrl || tool.officialUrl || tool.websiteUrl}" target="_blank" rel="noopener noreferrer" 
-                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-extrabold text-sm sm:text-base px-6 py-3.5 rounded-xl shadow-xl shadow-indigo-600/30 hover:shadow-cyan-500/40 hover:scale-105 transition-all duration-300 group shrink-0">
+                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-extrabold text-xs sm:text-base px-4 py-2.5 sm:px-6 sm:py-3.5 rounded-lg sm:rounded-xl shadow-xl shadow-indigo-600/30 hover:shadow-cyan-500/40 hover:scale-105 transition-all duration-300 group shrink-0">
                 <span>Visit Official Website</span>
                 <svg class="w-4 h-4 text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
               </a>
@@ -637,38 +638,38 @@ tools.forEach((tool, index) => {
             <a href="${relPath}category/${category.slug}/index.html" class="text-xs text-indigo-400 hover:underline">Explore Category &rarr;</a>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            ${relatedList.map(rel => `
-              <div onclick="window.location.href='${relPath}tools/${rel.slug}/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
-                <div>
-                  <div class="flex items-start justify-between gap-3 pb-3">
-                    <div class="flex items-center gap-3">
-                      <a href="${relPath}tools/${rel.slug}/index.html">
-                        <img src="${relPath}${rel.logoUrl || rel.logo}" alt="${rel.name}" loading="lazy" width="40" height="40"
-                             class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" 
-                             onerror="this.src='${relPath}logo.jpg'" />
-                      </a>
-                      <div>
-                        <a href="${relPath}tools/${rel.slug}/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">${rel.name}</a>
-                        <p class="text-xs text-zinc-400">${rel.category}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
+              ${relatedList.map(rel => `
+                <div onclick="window.location.href='${relPath}tools/${rel.slug}/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group">
+                  <div>
+                    <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
+                      <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                        <a href="${relPath}tools/${rel.slug}/index.html" class="shrink-0">
+                          <img src="${relPath}${rel.logoUrl || rel.logo}" alt="${rel.name}" loading="lazy" width="40" height="40"
+                               class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 sm:p-1 shrink-0 group-hover:scale-105 transition-transform" 
+                               onerror="this.src='${relPath}logo.jpg'" />
+                        </a>
+                        <div class="min-w-0">
+                          <a href="${relPath}tools/${rel.slug}/index.html" class="font-semibold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors truncate block">${rel.name}</a>
+                          <p class="text-[11px] sm:text-xs text-zinc-400 truncate">${rel.category}</p>
+                        </div>
                       </div>
+                      <span class="text-[9px] sm:text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded font-medium shrink-0">${rel.pricingModel}</span>
                     </div>
-                    <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">${rel.pricingModel}</span>
+                    <p class="text-xs text-zinc-300 line-clamp-2 sm:line-clamp-3 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">${rel.shortDescription}</p>
                   </div>
-                  <p class="text-xs text-zinc-300 line-clamp-2 leading-relaxed">${rel.shortDescription}</p>
-                </div>
-                <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
-                  <span class="text-xs font-semibold text-amber-400">★ ${rel.rating}</span>
-                  <div class="flex items-center gap-2">
-                    <a href="${relPath}tools/${rel.slug}/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
-                    <a href="${relPath}tools/${rel.slug}/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
-                      Details &rsaquo;
-                    </a>
+                  <div class="pt-2.5 sm:pt-4 mt-2 sm:mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+                    <span class="text-xs font-semibold text-amber-400">★ ${rel.rating}</span>
+                    <div class="flex items-center gap-1.5 sm:gap-2">
+                      <a href="${relPath}tools/${rel.slug}/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-1 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold transition-colors">Try Now</a>
+                      <a href="${relPath}tools/${rel.slug}/index.html" class="text-[11px] sm:text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5">
+                        Details &rsaquo;
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            `).join('')}
-          </div>
+              `).join('')}
+            </div>
         </div>
 
         <!-- 20. Previous Tool & Next Tool Links -->
@@ -1351,38 +1352,7 @@ const homeHTML = `<!DOCTYPE html>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               ${tools.slice(0, 6).map(t => `
-                <div onclick="window.location.href='tools/${t.slug}/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
-                  <div>
-                    <div class="flex items-start justify-between gap-3 pb-3">
-                      <div class="flex items-center gap-3">
-                        <a href="tools/${t.slug}/index.html">
-                          <img src="${t.logoUrl || t.logo}" alt="${t.name}" loading="lazy" width="40" height="40"
-                               class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" 
-                               onerror="this.src='logo.jpg'" />
-                        </a>
-                        <div>
-                          <a href="tools/${t.slug}/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">${t.name}</a>
-                          <span class="text-xs text-zinc-400 block">${t.category}</span>
-                        </div>
-                      </div>
-                      <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">${t.pricingModel}</span>
-                    </div>
-                    <p class="text-xs text-zinc-300 line-clamp-3 leading-relaxed mt-1">${t.shortDescription}</p>
-                  </div>
-                  <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
-                    <div class="flex items-center gap-1 text-xs font-semibold text-amber-400">
-                      <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-                      <span>${t.rating}</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                      <a href="tools/${t.slug}/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
-                      <a href="tools/${t.slug}/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
-                        Details &rsaquo;
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              `).join('')}
+              ${tools.slice(0, 6).map(t => createToolCardHTML(t)).join('')}
             </div>
           </div>
 
@@ -1482,19 +1452,19 @@ const homeHTML = `<!DOCTYPE html>
       const container = document.getElementById('category-pills');
       const allActive = !activeCategorySlug;
 
-      let html = \`
-        <button onclick="filterByCategory(null)" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all \${allActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+      let html = `
+        <button onclick="filterByCategory(null)" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${allActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
           All Categories
         </button>
-      \`;
+      `;
 
       html += CATEGORIES.map(cat => {
         const isActive = activeCategorySlug === cat.slug;
-        return \`
-          <button onclick="filterByCategory('\${cat.slug}')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap \${isActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
-            \${cat.name}
+        return `
+          <button onclick="filterByCategory('${cat.slug}')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${isActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+            ${cat.name}
           </button>
-        \`;
+        `;
       }).join('');
 
       container.innerHTML = html;
@@ -1534,58 +1504,56 @@ const homeHTML = `<!DOCTYPE html>
         return matchesCategory && matchesPricing && matchesSearch;
       });
 
-      document.getElementById('dir-count').innerText = \`\${filtered.length} \${filtered.length === 1 ? 'tool' : 'tools'} available\`;
+      document.getElementById('dir-count').innerText = `${filtered.length} ${filtered.length === 1 ? 'tool' : 'tools'} available`;
       const grid = document.getElementById('directory-tools-grid');
 
       if (filtered.length > 0) {
         grid.innerHTML = filtered.map(createToolCardHTML).join('');
       } else {
-        grid.innerHTML = \`
+        grid.innerHTML = `
           <div class="col-span-full text-center py-16 glass-panel rounded-2xl border-dashed">
             <i data-lucide="search-x" class="w-10 h-10 text-zinc-500 mx-auto mb-3"></i>
             <h3 class="text-lg font-semibold text-white">No tools found</h3>
             <p class="text-xs text-zinc-400 mt-1">Try adjusting your category, pricing, or search term.</p>
           </div>
-        \`;
+        `;
       }
       lucide.createIcons();
     }
 
     function createToolCardHTML(tool) {
       const category = CATEGORIES.find(c => c.id === tool.categoryId || c.slug === tool.categorySlug);
-      return \`
-        <div onclick="window.location.href='tools/\${tool.slug}/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
+      return `
+        <div onclick="window.location.href='tools/${tool.slug}/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group">
           <div>
-            <div class="flex items-start justify-between gap-3 pb-3">
-              <div class="flex items-center gap-3">
-                <a href="tools/\${tool.slug}/index.html">
-                  <img src="\${tool.logoUrl || tool.logo}" alt="\${tool.name}" loading="lazy" width="40" height="40"
-                       class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" 
+            <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <a href="tools/${tool.slug}/index.html" class="shrink-0">
+                  <img src="${tool.logoUrl || tool.logo}" alt="${tool.name}" loading="lazy" width="40" height="40"
+                       class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 sm:p-1 shrink-0 group-hover:scale-105 transition-transform" 
                        onerror="this.src='logo.jpg'" />
                 </a>
-                <div>
-                  <a href="tools/\${tool.slug}/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">\${tool.name}</a>
-                  <span class="text-xs text-zinc-400 block">\${category ? category.name : ''}</span>
+                <div class="min-w-0">
+                  <a href="tools/${tool.slug}/index.html" class="font-semibold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors truncate block">${tool.name}</a>
+                  <span class="text-[11px] sm:text-xs text-zinc-400 block truncate">${category ? category.name : ''}</span>
                 </div>
               </div>
-              <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">\${tool.pricingModel}</span>
+              <span class="text-[9px] sm:text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded font-medium shrink-0">${tool.pricingModel}</span>
             </div>
-            <p class="text-xs text-zinc-300 line-clamp-3 leading-relaxed mt-1">\${tool.shortDescription}</p>
+            <p class="text-xs text-zinc-300 line-clamp-2 sm:line-clamp-3 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">${tool.shortDescription}</p>
           </div>
-          <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+          <div class="pt-2.5 sm:pt-4 mt-2 sm:mt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <div class="flex items-center gap-1 text-xs font-semibold text-amber-400">
               <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-              <span>\${tool.rating}</span>
+              <span>${tool.rating}</span>
             </div>
-            <div class="flex items-center gap-2">
-              <a href="tools/\${tool.slug}/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
-              <a href="tools/\${tool.slug}/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
-                Details &rsaquo;
-              </a>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <a href="tools/${tool.slug}/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-1 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold transition-colors">Try Now</a>
+              <a href="tools/${tool.slug}/index.html" class="text-[11px] sm:text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5">Details &rsaquo;</a>
             </div>
           </div>
         </div>
-      \`;
+      `;
     }
 
     window.addEventListener('DOMContentLoaded', () => {

@@ -88,40 +88,41 @@
   </video>
 
   <div class="app-viewport flex flex-col">
-        <header class="glass-header sticky top-0 z-50 h-16 px-6 flex items-center justify-between">
-      <div class="flex items-center gap-8">
-        <a href="../../index.html" class="flex items-center gap-3 group">
+        <header class="glass-header sticky top-0 z-50 h-16 px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-8">
+      <div class="flex items-center gap-2 sm:gap-8 min-w-0 shrink-0 sm:shrink">
+        <a href="../../index.html" class="flex items-center gap-2 sm:gap-3 group shrink-0">
           <img src="../../logo.jpg" alt="NANDAN AI Logo"
-            class="w-10 h-10 rounded-xl object-cover shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform border border-cyan-500/30" />
+            class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-cover shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform border border-cyan-500/30" />
           <div class="flex flex-col">
-            <span class="font-extrabold text-xl tracking-wider text-white leading-none">NANDAN AI</span>
-            <span class="text-[9px] font-bold tracking-widest text-cyan-400 uppercase mt-0.5">ALL IN ONE AI</span>
+            <span class="font-extrabold text-sm sm:text-xl tracking-wider text-white leading-none">NANDAN AI</span>
+            <span class="text-[8px] sm:text-[9px] font-bold tracking-widest text-cyan-400 uppercase mt-0.5 hidden xs:block sm:block">ALL IN ONE AI</span>
           </div>
         </a>
-
-        <div class="relative w-96 hidden md:block">
-          <span class="absolute inset-y-0 left-3 flex items-center text-zinc-400">
-            <i data-lucide="search" class="w-4 h-4"></i>
-          </span>
-          <input type="text" id="globalHeaderSearch" onkeydown="if(event.key==='Enter') location.href='../../index.html?search=' + encodeURIComponent(this.value)"
-            placeholder="Search 2,400+ AI tools..."
-            class="w-full bg-zinc-900/80 border border-zinc-700/60 rounded-md py-2 pl-10 pr-4 text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
-        </div>
       </div>
 
-      <div class="flex items-center gap-4">
+      <div class="relative flex-1 max-w-[200px] xs:max-w-xs sm:max-w-md md:w-96 mx-1 sm:mx-0">
+        <span class="absolute inset-y-0 left-2.5 sm:left-3 flex items-center text-zinc-400 pointer-events-none">
+          <i data-lucide="search" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+        </span>
+        <input type="text" id="globalHeaderSearch" onkeydown="if(event.key==='Enter') location.href='../../index.html?search=' + encodeURIComponent(this.value)"
+          placeholder="Search AI tools..."
+          class="w-full bg-zinc-900/90 border border-zinc-700/60 rounded-lg py-1.5 sm:py-2 pl-8 sm:pl-10 pr-2.5 sm:pr-4 text-xs sm:text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-4 shrink-0">
         <a href="../../index.html#section-directory"
-          class="text-sm font-medium text-zinc-300 hover:text-indigo-400 hidden sm:block transition-colors">
+          class="text-sm font-medium text-zinc-300 hover:text-indigo-400 hidden lg:block transition-colors">
           All Tools
         </a>
         <button onclick="openSubmitModal()"
-          class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-lg shadow-indigo-600/30">
-          Submit Tool
+          class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-md text-xs sm:text-sm font-medium transition-colors shadow-lg shadow-indigo-600/30">
+          <span class="hidden sm:inline">Submit Tool</span>
+          <span class="sm:hidden">Submit</span>
         </button>
       </div>
     </header>
 
-    <div class="flex flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 gap-6">
+    <div class="flex flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 gap-6">
           <aside class="w-64 glass-panel rounded-2xl p-5 hidden lg:flex flex-col gap-6 shrink-0 h-[calc(100vh-6rem)] sticky top-20">
       <div>
         <h3 class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Navigation</h3>
@@ -257,10 +258,10 @@
       </div>
     </aside>
 
-      <main class="flex-1 space-y-8 min-w-0">
+      <main class="flex-1 space-y-4 sm:space-y-8 min-w-0">
 
         <!-- 1. Breadcrumb -->
-        <nav class="flex items-center gap-2 text-xs text-zinc-400 glass-panel px-4 py-3 rounded-xl border border-zinc-800/80">
+        <nav class="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-zinc-400 glass-panel px-3 py-2 sm:px-4 sm:py-3 rounded-xl border border-zinc-800/80">
           <a href="../../index.html" class="hover:text-white flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> Home</a>
           <span>&rsaquo;</span>
           <a href="../../category/video-generation/index.html" class="hover:text-indigo-400">Video Generation</a>
@@ -270,26 +271,26 @@
 
         <!-- 2. Hero Banner & Header -->
         <div class="glass-panel rounded-2xl overflow-hidden relative border-indigo-500/30 shadow-2xl">
-          <div class="h-48 sm:h-64 w-full relative overflow-hidden bg-gradient-to-r from-indigo-950 via-zinc-900 to-black">
+          <div class="h-32 sm:h-64 w-full relative overflow-hidden bg-gradient-to-r from-indigo-950 via-zinc-900 to-black">
             <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&auto=format&fit=crop&q=80" alt="D-ID Cover Banner" loading="lazy" decoding="async" width="1200" height="400"
                  class="w-full h-full object-cover opacity-40 mix-blend-overlay scale-105 hover:scale-100 transition-transform duration-700" />
             <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent"></div>
           </div>
 
-          <div class="p-6 sm:p-8 -mt-20 relative z-10 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6">
-            <div class="flex items-start gap-4">
+          <div class="p-4 sm:p-8 -mt-12 sm:-mt-20 relative z-10 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 sm:gap-6">
+            <div class="flex items-start gap-3 sm:gap-4">
               <img src="../../assets/logos/d-id.png" alt="D-ID Logo" loading="lazy" width="80" height="80"
-                   class="w-20 h-20 rounded-2xl bg-zinc-900 border-2 border-indigo-500/50 p-2 object-contain shadow-xl shrink-0 backdrop-blur-md"
+                   class="w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-zinc-900 border-2 border-indigo-500/50 p-1.5 sm:p-2 object-contain shadow-xl shrink-0 backdrop-blur-md"
                    onerror="this.src='../../logo.jpg'" />
               <div>
-                <div class="flex flex-wrap items-center gap-2 mb-1.5">
-                  <a href="../../category/video-generation/index.html" class="text-xs font-semibold text-indigo-300 bg-indigo-950/80 hover:bg-indigo-900 px-2.5 py-0.5 rounded-md border border-indigo-500/30 uppercase tracking-wider transition-colors">Video Generation</a>
-                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-indigo-950/80 text-indigo-300 border border-indigo-500/30">Freemium</span>
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1 sm:mb-1.5">
+                  <a href="../../category/video-generation/index.html" class="text-[10px] sm:text-xs font-semibold text-indigo-300 bg-indigo-950/80 hover:bg-indigo-900 px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-md border border-indigo-500/30 uppercase tracking-wider transition-colors">Video Generation</a>
+                  <span class="text-[10px] sm:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-md bg-indigo-950/80 text-indigo-300 border border-indigo-500/30">Freemium</span>
                 </div>
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-none">D-ID</h1>
-                <div class="flex items-center gap-2 mt-2">
-                  <div class="flex items-center text-amber-400 text-sm"><i data-lucide="star" class="w-4 h-4 fill-current"></i><span class="font-bold ml-1">4.6</span></div>
-                  <span class="text-xs text-zinc-400">(1,250+ user reviews)</span>
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-none">D-ID</h1>
+                <div class="flex items-center gap-1.5 sm:gap-2 mt-1.5 sm:mt-2">
+                  <div class="flex items-center text-amber-400 text-xs sm:text-sm"><i data-lucide="star" class="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current"></i><span class="font-bold ml-1">4.6</span></div>
+                  <span class="text-[11px] sm:text-xs text-zinc-400">(1,250+ user reviews)</span>
                 </div>
               </div>
             </div>
@@ -297,7 +298,7 @@
             <!-- Hero Primary CTA Button -->
             <div class="flex items-center gap-3 w-full sm:w-auto sm:self-center">
               <a href="https://d-id.com" target="_blank" rel="noopener noreferrer" 
-                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-extrabold text-sm sm:text-base px-6 py-3.5 rounded-xl shadow-xl shadow-indigo-600/30 hover:shadow-cyan-500/40 hover:scale-105 transition-all duration-300 group shrink-0">
+                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-extrabold text-xs sm:text-base px-4 py-2.5 sm:px-6 sm:py-3.5 rounded-lg sm:rounded-xl shadow-xl shadow-indigo-600/30 hover:shadow-cyan-500/40 hover:scale-105 transition-all duration-300 group shrink-0">
                 <span>Visit Official Website</span>
                 <svg class="w-4 h-4 text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
               </a>
@@ -437,147 +438,147 @@
             <h3 class="text-xl font-bold text-white flex items-center gap-2"><i data-lucide="layers" class="w-5 h-5 text-indigo-400"></i> Related Video Generation Tools</h3>
             <a href="../../category/video-generation/index.html" class="text-xs text-indigo-400 hover:underline">Explore Category &rsaquo;</a>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">        <div onclick="window.location.href='../../tools/synthesia/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">        <div onclick="window.location.href='../../tools/synthesia/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group">
           <div>
-            <div class="flex items-start justify-between gap-3 pb-3">
-              <div class="flex items-center gap-3">
-                <a href="../../tools/synthesia/index.html">
-                  <img src="../../assets/logos/synthesia.png" alt="Synthesia" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
+            <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <a href="../../tools/synthesia/index.html" class="shrink-0">
+                  <img src="../../assets/logos/synthesia.png" alt="Synthesia" loading="lazy" width="40" height="40" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 sm:p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
                 </a>
-                <div>
-                  <a href="../../tools/synthesia/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">Synthesia</a>
-                  <p class="text-xs text-zinc-400">Video Generation</p>
+                <div class="min-w-0">
+                  <a href="../../tools/synthesia/index.html" class="font-semibold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors truncate block">Synthesia</a>
+                  <p class="text-[11px] sm:text-xs text-zinc-400 truncate">Video Generation</p>
                 </div>
               </div>
-              <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">Paid</span>
+              <span class="text-[9px] sm:text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded font-medium shrink-0">Paid</span>
             </div>
-            <p class="text-xs text-zinc-300 line-clamp-2 leading-relaxed">Create studio-quality video presentations with photorealistic AI avatars and multi-language voiceovers.</p>
+            <p class="text-xs text-zinc-300 line-clamp-2 sm:line-clamp-3 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">Create studio-quality video presentations with photorealistic AI avatars and multi-language voiceovers.</p>
           </div>
-          <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+          <div class="pt-2.5 sm:pt-4 mt-2 sm:mt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <span class="text-xs font-semibold text-amber-400">â˜… 4.8</span>
-            <div class="flex items-center gap-2">
-              <a href="../../tools/synthesia/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
-              <a href="../../tools/synthesia/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rsaquo;</a>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <a href="../../tools/synthesia/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-1 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold transition-colors">Try Now</a>
+              <a href="../../tools/synthesia/index.html" class="text-[11px] sm:text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5">Details &rsaquo;</a>
             </div>
           </div>
         </div>
-        <div onclick="window.location.href='../../tools/runway/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
+        <div onclick="window.location.href='../../tools/runway/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group">
           <div>
-            <div class="flex items-start justify-between gap-3 pb-3">
-              <div class="flex items-center gap-3">
-                <a href="../../tools/runway/index.html">
-                  <img src="../../assets/logos/runway.png" alt="Runway" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
+            <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <a href="../../tools/runway/index.html" class="shrink-0">
+                  <img src="../../assets/logos/runway.png" alt="Runway" loading="lazy" width="40" height="40" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 sm:p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
                 </a>
-                <div>
-                  <a href="../../tools/runway/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">Runway</a>
-                  <p class="text-xs text-zinc-400">Video Generation</p>
+                <div class="min-w-0">
+                  <a href="../../tools/runway/index.html" class="font-semibold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors truncate block">Runway</a>
+                  <p class="text-[11px] sm:text-xs text-zinc-400 truncate">Video Generation</p>
                 </div>
               </div>
-              <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">Freemium</span>
+              <span class="text-[9px] sm:text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded font-medium shrink-0">Freemium</span>
             </div>
-            <p class="text-xs text-zinc-300 line-clamp-2 leading-relaxed">Advancing creativity with AI video generation, motion synthesis, and real-time visual effects.</p>
+            <p class="text-xs text-zinc-300 line-clamp-2 sm:line-clamp-3 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">Advancing creativity with AI video generation, motion synthesis, and real-time visual effects.</p>
           </div>
-          <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+          <div class="pt-2.5 sm:pt-4 mt-2 sm:mt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <span class="text-xs font-semibold text-amber-400">â˜… 4.9</span>
-            <div class="flex items-center gap-2">
-              <a href="../../tools/runway/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
-              <a href="../../tools/runway/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rsaquo;</a>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <a href="../../tools/runway/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-1 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold transition-colors">Try Now</a>
+              <a href="../../tools/runway/index.html" class="text-[11px] sm:text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5">Details &rsaquo;</a>
             </div>
           </div>
         </div>
-        <div onclick="window.location.href='../../tools/heygen/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
+        <div onclick="window.location.href='../../tools/heygen/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group">
           <div>
-            <div class="flex items-start justify-between gap-3 pb-3">
-              <div class="flex items-center gap-3">
-                <a href="../../tools/heygen/index.html">
-                  <img src="../../assets/logos/heygen.png" alt="HeyGen" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
+            <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <a href="../../tools/heygen/index.html" class="shrink-0">
+                  <img src="../../assets/logos/heygen.png" alt="HeyGen" loading="lazy" width="40" height="40" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 sm:p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
                 </a>
-                <div>
-                  <a href="../../tools/heygen/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">HeyGen</a>
-                  <p class="text-xs text-zinc-400">Video Generation</p>
+                <div class="min-w-0">
+                  <a href="../../tools/heygen/index.html" class="font-semibold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors truncate block">HeyGen</a>
+                  <p class="text-[11px] sm:text-xs text-zinc-400 truncate">Video Generation</p>
                 </div>
               </div>
-              <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">Freemium</span>
+              <span class="text-[9px] sm:text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded font-medium shrink-0">Freemium</span>
             </div>
-            <p class="text-xs text-zinc-300 line-clamp-2 leading-relaxed">AI video generator for business presentations, marketing, and localized video avatar translations.</p>
+            <p class="text-xs text-zinc-300 line-clamp-2 sm:line-clamp-3 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">AI video generator for business presentations, marketing, and localized video avatar translations.</p>
           </div>
-          <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+          <div class="pt-2.5 sm:pt-4 mt-2 sm:mt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <span class="text-xs font-semibold text-amber-400">â˜… 4.7</span>
-            <div class="flex items-center gap-2">
-              <a href="../../tools/heygen/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
-              <a href="../../tools/heygen/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rsaquo;</a>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <a href="../../tools/heygen/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-1 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold transition-colors">Try Now</a>
+              <a href="../../tools/heygen/index.html" class="text-[11px] sm:text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5">Details &rsaquo;</a>
             </div>
           </div>
         </div>
-        <div onclick="window.location.href='../../tools/pika/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
+        <div onclick="window.location.href='../../tools/pika/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group">
           <div>
-            <div class="flex items-start justify-between gap-3 pb-3">
-              <div class="flex items-center gap-3">
-                <a href="../../tools/pika/index.html">
-                  <img src="../../assets/logos/pika.png" alt="Pika" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
+            <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <a href="../../tools/pika/index.html" class="shrink-0">
+                  <img src="../../assets/logos/pika.png" alt="Pika" loading="lazy" width="40" height="40" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 sm:p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
                 </a>
-                <div>
-                  <a href="../../tools/pika/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">Pika</a>
-                  <p class="text-xs text-zinc-400">Video Generation</p>
+                <div class="min-w-0">
+                  <a href="../../tools/pika/index.html" class="font-semibold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors truncate block">Pika</a>
+                  <p class="text-[11px] sm:text-xs text-zinc-400 truncate">Video Generation</p>
                 </div>
               </div>
-              <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">Free</span>
+              <span class="text-[9px] sm:text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded font-medium shrink-0">Free</span>
             </div>
-            <p class="text-xs text-zinc-300 line-clamp-2 leading-relaxed">Generative AI platform that brings ideas to life with dynamic video clips and animations.</p>
+            <p class="text-xs text-zinc-300 line-clamp-2 sm:line-clamp-3 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">Generative AI platform that brings ideas to life with dynamic video clips and animations.</p>
           </div>
-          <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+          <div class="pt-2.5 sm:pt-4 mt-2 sm:mt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <span class="text-xs font-semibold text-amber-400">â˜… 4.6</span>
-            <div class="flex items-center gap-2">
-              <a href="../../tools/pika/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
-              <a href="../../tools/pika/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rsaquo;</a>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <a href="../../tools/pika/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-1 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold transition-colors">Try Now</a>
+              <a href="../../tools/pika/index.html" class="text-[11px] sm:text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5">Details &rsaquo;</a>
             </div>
           </div>
         </div>
-        <div onclick="window.location.href='../../tools/higgsfield-ai/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
+        <div onclick="window.location.href='../../tools/higgsfield-ai/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group">
           <div>
-            <div class="flex items-start justify-between gap-3 pb-3">
-              <div class="flex items-center gap-3">
-                <a href="../../tools/higgsfield-ai/index.html">
-                  <img src="../../assets/logos/higgsfield-ai.png" alt="Higgsfield AI" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
+            <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <a href="../../tools/higgsfield-ai/index.html" class="shrink-0">
+                  <img src="../../assets/logos/higgsfield-ai.png" alt="Higgsfield AI" loading="lazy" width="40" height="40" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 sm:p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
                 </a>
-                <div>
-                  <a href="../../tools/higgsfield-ai/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">Higgsfield AI</a>
-                  <p class="text-xs text-zinc-400">Video Generation</p>
+                <div class="min-w-0">
+                  <a href="../../tools/higgsfield-ai/index.html" class="font-semibold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors truncate block">Higgsfield AI</a>
+                  <p class="text-[11px] sm:text-xs text-zinc-400 truncate">Video Generation</p>
                 </div>
               </div>
-              <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">Freemium</span>
+              <span class="text-[9px] sm:text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded font-medium shrink-0">Freemium</span>
             </div>
-            <p class="text-xs text-zinc-300 line-clamp-2 leading-relaxed">Generative video tool built for social media creators to turn images into motion clips.</p>
+            <p class="text-xs text-zinc-300 line-clamp-2 sm:line-clamp-3 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">Generative video tool built for social media creators to turn images into motion clips.</p>
           </div>
-          <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+          <div class="pt-2.5 sm:pt-4 mt-2 sm:mt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <span class="text-xs font-semibold text-amber-400">â˜… 4.7</span>
-            <div class="flex items-center gap-2">
-              <a href="../../tools/higgsfield-ai/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
-              <a href="../../tools/higgsfield-ai/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rsaquo;</a>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <a href="../../tools/higgsfield-ai/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-1 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold transition-colors">Try Now</a>
+              <a href="../../tools/higgsfield-ai/index.html" class="text-[11px] sm:text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5">Details &rsaquo;</a>
             </div>
           </div>
         </div>
-        <div onclick="window.location.href='../../tools/invideo-ai/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
+        <div onclick="window.location.href='../../tools/invideo-ai/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group">
           <div>
-            <div class="flex items-start justify-between gap-3 pb-3">
-              <div class="flex items-center gap-3">
-                <a href="../../tools/invideo-ai/index.html">
-                  <img src="../../assets/logos/invideo-ai.png" alt="InVideo AI" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
+            <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <a href="../../tools/invideo-ai/index.html" class="shrink-0">
+                  <img src="../../assets/logos/invideo-ai.png" alt="InVideo AI" loading="lazy" width="40" height="40" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 sm:p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='../../logo.jpg'" />
                 </a>
-                <div>
-                  <a href="../../tools/invideo-ai/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">InVideo AI</a>
-                  <p class="text-xs text-zinc-400">Video Generation</p>
+                <div class="min-w-0">
+                  <a href="../../tools/invideo-ai/index.html" class="font-semibold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors truncate block">InVideo AI</a>
+                  <p class="text-[11px] sm:text-xs text-zinc-400 truncate">Video Generation</p>
                 </div>
               </div>
-              <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">Freemium</span>
+              <span class="text-[9px] sm:text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded font-medium shrink-0">Freemium</span>
             </div>
-            <p class="text-xs text-zinc-300 line-clamp-2 leading-relaxed">Automated video generator turning text scripts into complete videos with stock footage.</p>
+            <p class="text-xs text-zinc-300 line-clamp-2 sm:line-clamp-3 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">Automated video generator turning text scripts into complete videos with stock footage.</p>
           </div>
-          <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+          <div class="pt-2.5 sm:pt-4 mt-2 sm:mt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <span class="text-xs font-semibold text-amber-400">â˜… 4.7</span>
-            <div class="flex items-center gap-2">
-              <a href="../../tools/invideo-ai/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
-              <a href="../../tools/invideo-ai/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rsaquo;</a>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <a href="../../tools/invideo-ai/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-1 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold transition-colors">Try Now</a>
+              <a href="../../tools/invideo-ai/index.html" class="text-[11px] sm:text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5">Details &rsaquo;</a>
             </div>
           </div>
         </div></div>
