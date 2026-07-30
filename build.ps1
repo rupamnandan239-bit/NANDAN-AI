@@ -235,11 +235,13 @@ for ($i = 0; $i -lt $tools.Count; $i++) {
 
     $relatedHtml = ($relatedList | ForEach-Object {
         @"
-        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between group">
+        <div onclick="window.location.href='${relPath}tools/$($_.slug)/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
           <div>
             <div class="flex items-start justify-between gap-3 pb-3">
               <div class="flex items-center gap-3">
-                <img src="$($_.logoUrl)" alt="$($_.name)" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0" onerror="this.src='${relPath}logo.jpg'" />
+                <a href="${relPath}tools/$($_.slug)/index.html">
+                  <img src="$($_.logoUrl)" alt="$($_.name)" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='${relPath}logo.jpg'" />
+                </a>
                 <div>
                   <a href="${relPath}tools/$($_.slug)/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">$($_.name)</a>
                   <p class="text-xs text-zinc-400">$($_.category)</p>
@@ -251,7 +253,10 @@ for ($i = 0; $i -lt $tools.Count; $i++) {
           </div>
           <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <span class="text-xs font-semibold text-amber-400">★ $($_.rating)</span>
-            <a href="${relPath}tools/$($_.slug)/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rarr;</a>
+            <div class="flex items-center gap-2">
+              <a href="${relPath}tools/$($_.slug)/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
+              <a href="${relPath}tools/$($_.slug)/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rsaquo;</a>
+            </div>
           </div>
         </div>
 "@
@@ -549,12 +554,14 @@ foreach ($cat in $categories) {
 
     $cToolsHtml = ($catTools | ForEach-Object {
         @"
-        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between group tool-card-item" 
+        <div onclick="window.location.href='${relPath}tools/$($_.slug)/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group tool-card-item" 
              data-name="$($_.name.ToLower())" data-desc="$($_.shortDescription.ToLower())" data-pricing="$($_.pricingModel.ToLower())">
           <div>
             <div class="flex items-start justify-between gap-3 pb-3">
               <div class="flex items-center gap-3">
-                <img src="$($_.logoUrl)" alt="$($_.name)" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0" onerror="this.src='${relPath}logo.jpg'" />
+                <a href="${relPath}tools/$($_.slug)/index.html">
+                  <img src="$($_.logoUrl)" alt="$($_.name)" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='${relPath}logo.jpg'" />
+                </a>
                 <div>
                   <a href="${relPath}tools/$($_.slug)/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">$($_.name)</a>
                   <p class="text-xs text-zinc-400">$($cat.name)</p>
@@ -566,7 +573,10 @@ foreach ($cat in $categories) {
           </div>
           <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <div class="flex items-center gap-1 text-xs font-semibold text-amber-400"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i><span>$($_.rating)</span></div>
-            <a href="${relPath}tools/$($_.slug)/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rarr;</a>
+            <div class="flex items-center gap-2">
+              <a href="${relPath}tools/$($_.slug)/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
+              <a href="${relPath}tools/$($_.slug)/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rsaquo;</a>
+            </div>
           </div>
         </div>
 "@
@@ -701,7 +711,561 @@ foreach ($cat in $categories) {
 
 Write-Host "Generated $($categories.Count) category pages."
 
-# 3. Generate Sitemap.xml
+# 3. Generate Homepage (index.html)
+Write-Host "Generating Homepage (index.html)..."
+$featuredTool = $tools | Where-Object { $_.isFeatured } | Select-Object -First 1
+if (-not $featuredTool) { $featuredTool = $tools[0] }
+$trendingTools = $tools | Where-Object { $_.id -ne $featuredTool.id } | Select-Object -First 2
+$categoriesJson = $categories | ConvertTo-Json -Depth 5 -Compress
+$toolsJson = $tools | ConvertTo-Json -Depth 5 -Compress
+
+$popularCatsHtml = ($categories | Select-Object -First 6 | ForEach-Object {
+    $cCount = ($tools | Where-Object { $_.categoryId -eq $_.id -or $_.categorySlug -eq $_.slug }).Count
+    @"
+    <a href="category/$($_.slug)/index.html" class="p-3.5 bg-zinc-900/80 rounded-xl border border-zinc-800 hover:border-indigo-500/50 hover:bg-zinc-800/80 transition-all text-center group">
+      <div class="font-semibold text-sm text-zinc-200 group-hover:text-indigo-300">$($_.name)</div>
+      <div class="text-[10px] text-zinc-500 mt-0.5">$cCount tools</div>
+    </a>
+"@
+}) -join "`n"
+
+$topPreviewToolsHtml = ($tools | Select-Object -First 6 | ForEach-Object {
+    @"
+    <div onclick="window.location.href='tools/$($_.slug)/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
+      <div>
+        <div class="flex items-start justify-between gap-3 pb-3">
+          <div class="flex items-center gap-3">
+            <a href="tools/$($_.slug)/index.html">
+              <img src="$($_.logoUrl)" alt="$($_.name)" loading="lazy" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" onerror="this.src='logo.jpg'" />
+            </a>
+            <div>
+              <a href="tools/$($_.slug)/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">$($_.name)</a>
+              <span class="text-xs text-zinc-400 block">$($_.category)</span>
+            </div>
+          </div>
+          <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">$($_.pricingModel)</span>
+        </div>
+        <p class="text-xs text-zinc-300 line-clamp-3 leading-relaxed mt-1">$($_.shortDescription)</p>
+      </div>
+      <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+        <div class="flex items-center gap-1 text-xs font-semibold text-amber-400">
+          <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+          <span>$($_.rating)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="tools/$($_.slug)/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
+          <a href="tools/$($_.slug)/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rsaquo;</a>
+        </div>
+      </div>
+    </div>
+"@
+}) -join "`n"
+
+$catSidebarHtml = ($categories | ForEach-Object {
+    $cCount = ($tools | Where-Object { $_.categoryId -eq $_.id -or $_.categorySlug -eq $_.slug }).Count
+    @"
+    <li>
+      <a href="category/$($_.slug)/index.html" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-zinc-800/50 hover:text-white transition-colors flex items-center justify-between text-xs">
+        <span>$($_.name)</span>
+        <span class="text-[10px] text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded">$cCount</span>
+      </a>
+    </li>
+"@
+}) -join "`n"
+
+$homepageHtml = @"
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <title>NANDAN AI - ALL IN ONE AI TOOLS DIRECTORY</title>
+  <meta name="description" content="Discover 2,400+ top AI tools, web apps, chatbots, video generators, and software on NANDAN AI directory.">
+  <meta name="google-site-verification" content="_DzXTeLJQz_FNIVhHpAR219hKt2GqaPDnNzpe_HVWIQ" />
+  <link rel="canonical" href="$DOMAIN">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="$DOMAIN">
+  <meta property="og:title" content="NANDAN AI - ALL IN ONE AI">
+  <meta property="og:description" content="Discover 2,400+ top AI tools, chatbots, image generators & developer tools.">
+  <meta property="og:image" content="$DOMAIN/logo.jpg">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca' }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Global Schemas -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NANDAN AI",
+    "url": "$DOMAIN",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "$DOMAIN/index.html?search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; width: 100%; background-color: #09090b; color: #fafafa; font-family: ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
+    #bg-video { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 0; pointer-events: none; }
+    .app-viewport { position: relative; z-index: 10; min-height: 100vh; }
+    .glass-panel { background: rgba(24, 24, 27, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .glass-header { background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .glass-card { background: rgba(24, 24, 27, 0.65); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+    .glass-card:hover { background: rgba(24, 24, 27, 0.85); border-color: rgba(99, 102, 241, 0.5); transform: translateY(-2px); }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(9, 9, 11, 0.8); }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
+  </style>
+</head>
+
+<body>
+
+  <video id="bg-video" autoplay loop muted playsinline>
+    <source src="background.mp4" type="video/mp4" />
+  </video>
+
+  <div class="app-viewport flex flex-col">
+
+    <header class="glass-header sticky top-0 z-50 h-16 px-6 flex items-center justify-between">
+      <div class="flex items-center gap-8">
+        <a href="#" onclick="showSection('home')" class="flex items-center gap-3 group">
+          <img src="logo.jpg" alt="NANDAN AI Logo"
+            class="w-10 h-10 rounded-xl object-cover shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform border border-cyan-500/30" />
+          <div class="flex flex-col">
+            <span class="font-extrabold text-xl tracking-wider text-white leading-none">NANDAN AI</span>
+            <span class="text-[9px] font-bold tracking-widest text-cyan-400 uppercase mt-0.5">ALL IN ONE AI</span>
+          </div>
+        </a>
+
+        <div class="relative w-96 hidden md:block">
+          <span class="absolute inset-y-0 left-3 flex items-center text-zinc-400">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </span>
+          <input type="text" id="globalSearch" oninput="handleGlobalSearch(this.value)"
+            placeholder="Search 2,400+ AI tools..."
+            class="w-full bg-zinc-900/80 border border-zinc-700/60 rounded-md py-2 pl-10 pr-4 text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button onclick="showSection('directory')"
+          class="text-sm font-medium text-zinc-300 hover:text-indigo-400 hidden sm:block transition-colors">
+          All Tools
+        </button>
+        <button onclick="openSubmitModal()"
+          class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-lg shadow-indigo-600/30">
+          Submit Tool
+        </button>
+      </div>
+    </header>
+
+    <div class="flex flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 gap-6">
+
+      <aside class="w-64 glass-panel rounded-2xl p-5 hidden lg:flex flex-col gap-6 shrink-0 h-[calc(100vh-6rem)] sticky top-20">
+        <div>
+          <h3 class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Navigation</h3>
+          <ul class="space-y-1">
+            <li>
+              <button onclick="showSection('home')" id="nav-home"
+                class="w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors">
+                <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                Dashboard
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('directory')" id="nav-directory"
+                class="w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors">
+                <i data-lucide="grid" class="w-4 h-4"></i>
+                All Tools
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="overflow-y-auto pr-1">
+          <h3 class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Categories</h3>
+          <ul class="space-y-1 text-sm text-zinc-300" id="sidebar-categories">
+            $catSidebarHtml
+          </ul>
+        </div>
+
+        <div class="mt-auto pt-4 border-t border-zinc-800/80">
+          <div class="bg-indigo-950/40 border border-indigo-500/20 rounded-xl p-3 flex items-center gap-3">
+            <img src="logo.jpg" alt="NANDAN AI"
+              class="w-8 h-8 rounded-lg object-cover border border-cyan-500/40 shrink-0" />
+            <div>
+              <p class="text-xs text-indigo-300 font-semibold leading-tight">NANDAN AI</p>
+              <p class="text-[10px] text-zinc-400 mt-0.5">ALL IN ONE AI</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="flex-1 space-y-8 min-w-0">
+
+        <!-- HOME SECTION -->
+        <div id="section-home" class="space-y-8">
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+            <!-- Featured Tool of the Week -->
+            <div id="featured-card-container" onclick="window.location.href='tools/$($featuredTool.slug)/index.html'"
+              class="cursor-pointer md:col-span-2 md:row-span-3 glass-panel border-indigo-500/30 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group shadow-2xl">
+              <div class="relative z-10">
+                <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md border border-indigo-500/30 shadow-sm">
+                  Tool of the Week
+                </span>
+                <h2 class="text-3xl font-bold mt-4 text-white group-hover:text-indigo-300 transition-colors">$($featuredTool.name)</h2>
+                <p class="text-zinc-300 mt-2 text-sm max-w-sm leading-relaxed">$($featuredTool.shortDescription)</p>
+              </div>
+              <div class="flex items-center gap-3 z-10 mt-6">
+                <a href="tools/$($featuredTool.slug)/index.html" class="bg-white text-black px-5 py-2 rounded-lg text-sm font-semibold hover:bg-zinc-200 transition-all shadow-lg">
+                  Try Now
+                </a>
+                <a href="tools/$($featuredTool.slug)/index.html" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm font-semibold border border-white/10 transition-colors text-white">
+                  Details &rsaquo;
+                </a>
+              </div>
+              <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl group-hover:scale-125 transition-transform pointer-events-none"></div>
+            </div>
+
+            <!-- Trending Tool 1 -->
+            <div onclick="window.location.href='tools/$($trendingTools[0].slug)/index.html'" class="cursor-pointer md:col-span-1 md:row-span-2 glass-card rounded-2xl p-5 flex flex-col justify-between group">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <a href="tools/$($trendingTools[0].slug)/index.html" class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-lg">
+                    $($trendingTools[0].name.Substring(0, 1))
+                  </a>
+                  <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium">$($trendingTools[0].pricingModel)</span>
+                </div>
+                <a href="tools/$($trendingTools[0].slug)/index.html" class="font-bold text-white group-hover:text-indigo-400 transition-colors">$($trendingTools[0].name)</a>
+                <p class="text-xs text-zinc-400 mt-1 line-clamp-2">$($trendingTools[0].shortDescription)</p>
+              </div>
+              <div class="pt-4 flex items-center justify-between border-t border-zinc-800/60 mt-2">
+                <span class="text-xs font-semibold text-emerald-400">★ $($trendingTools[0].rating)</span>
+                <div class="flex items-center gap-2">
+                  <a href="tools/$($trendingTools[0].slug)/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-0.5 rounded text-[11px] font-semibold transition-colors">Try Now</a>
+                  <a href="tools/$($trendingTools[0].slug)/index.html" class="text-xs text-indigo-400 hover:underline">Details &rsaquo;</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trending Tool 2 -->
+            <div onclick="window.location.href='tools/$($trendingTools[1].slug)/index.html'" class="cursor-pointer md:col-span-1 md:row-span-2 glass-card rounded-2xl p-5 flex flex-col justify-between group">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <a href="tools/$($trendingTools[1].slug)/index.html" class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center font-bold text-lg">
+                    $($trendingTools[1].name.Substring(0, 1))
+                  </a>
+                  <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium">$($trendingTools[1].pricingModel)</span>
+                </div>
+                <a href="tools/$($trendingTools[1].slug)/index.html" class="font-bold text-white group-hover:text-indigo-400 transition-colors">$($trendingTools[1].name)</a>
+                <p class="text-xs text-zinc-400 mt-1 line-clamp-2">$($trendingTools[1].shortDescription)</p>
+              </div>
+              <div class="pt-4 flex items-center justify-between border-t border-zinc-800/60 mt-2">
+                <span class="text-xs font-semibold text-blue-400">★ $($trendingTools[1].rating)</span>
+                <div class="flex items-center gap-2">
+                  <a href="tools/$($trendingTools[1].slug)/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-0.5 rounded text-[11px] font-semibold transition-colors">Try Now</a>
+                  <a href="tools/$($trendingTools[1].slug)/index.html" class="text-xs text-indigo-400 hover:underline">Details &rsaquo;</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Statistics Banner -->
+            <div class="md:col-span-2 glass-panel rounded-2xl p-4 flex items-center justify-around">
+              <div class="text-center">
+                <div class="text-2xl font-bold text-white">$($tools.Count)</div>
+                <div class="text-[10px] text-zinc-400 uppercase tracking-wider mt-0.5">Total Tools</div>
+              </div>
+              <div class="h-8 w-px bg-zinc-800"></div>
+              <div class="text-center">
+                <div class="text-2xl font-bold text-white">$($categories.Count)</div>
+                <div class="text-[10px] text-zinc-400 uppercase tracking-wider mt-0.5">Categories</div>
+              </div>
+              <div class="h-8 w-px bg-zinc-800"></div>
+              <div class="text-center">
+                <div class="text-2xl font-bold text-indigo-400">12k+</div>
+                <div class="text-[10px] text-zinc-400 uppercase tracking-wider mt-0.5">User Reviews</div>
+              </div>
+            </div>
+
+            <!-- Popular Categories Grid -->
+            <div class="md:col-span-3 glass-panel rounded-2xl p-6">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                  <i data-lucide="layers" class="w-5 h-5 text-indigo-400"></i>
+                  Popular Categories
+                </h3>
+                <button onclick="showSection('directory')"
+                  class="text-xs text-indigo-400 hover:text-indigo-300 font-medium">View All &rsaquo;</button>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                $popularCatsHtml
+              </div>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="md:col-span-1 glass-panel border-indigo-500/30 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+              <div class="w-12 h-12 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400 mb-3 border border-indigo-500/30">
+                <i data-lucide="sparkles" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-bold text-white">Stay Updated</h4>
+              <p class="text-xs text-zinc-400 mt-2 mb-4">Top AI tools delivered straight to your inbox weekly.</p>
+              <input type="email" placeholder="email@domain.com"
+                class="w-full bg-zinc-900/90 border border-zinc-700/60 rounded-lg px-3 py-2 text-xs mb-2 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-indigo-500" />
+              <button onclick="alert('Thanks for subscribing to NANDAN AI!')"
+                class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-lg text-xs font-bold transition-colors shadow-md">
+                Join 50k+ Readers
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Quick Directory Preview -->
+          <div class="glass-panel rounded-2xl p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-white text-xl">Top AI Tools</h3>
+              <button onclick="showSection('directory')"
+                class="text-sm text-indigo-400 hover:underline font-medium">Explore All $($tools.Count) Tools &rsaquo;</button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              $topPreviewToolsHtml
+            </div>
+          </div>
+
+        </div>
+
+        <!-- DIRECTORY PAGE SECTION -->
+        <div id="section-directory" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-6 rounded-2xl">
+            <div>
+              <h1 class="text-3xl font-bold tracking-tight text-white" id="dir-title">All AI Tools</h1>
+              <p class="text-zinc-400 text-sm mt-1" id="dir-count">Loading $($tools.Count) tools...</p>
+            </div>
+
+            <div class="relative w-full sm:w-80">
+              <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400"></i>
+              <input type="text" id="dirSearch" oninput="renderDirectoryTools()"
+                placeholder="Search tools or keywords..."
+                class="w-full bg-zinc-900/90 border border-zinc-700/60 rounded-lg py-2 pl-9 pr-4 text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            </div>
+          </div>
+
+          <!-- Filters Row -->
+          <div class="flex flex-wrap items-center justify-between gap-4 glass-panel p-4 rounded-xl">
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 max-w-full" id="category-pills">
+              <!-- Rendered via JS -->
+            </div>
+
+            <div class="flex items-center gap-4 text-xs text-zinc-400 shrink-0">
+              <span class="font-semibold text-zinc-300">Pricing:</span>
+              <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+                <input type="radio" name="pricing" value="all" checked onchange="setPricingFilter('all')" class="text-indigo-600 focus:ring-indigo-500" /> All
+              </label>
+              <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+                <input type="radio" name="pricing" value="Free" onchange="setPricingFilter('Free')" class="text-indigo-600 focus:ring-indigo-500" /> Free
+              </label>
+              <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+                <input type="radio" name="pricing" value="Freemium" onchange="setPricingFilter('Freemium')" class="text-indigo-600 focus:ring-indigo-500" /> Freemium
+              </label>
+              <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+                <input type="radio" name="pricing" value="Paid" onchange="setPricingFilter('Paid')" class="text-indigo-600 focus:ring-indigo-500" /> Paid
+              </label>
+            </div>
+          </div>
+
+          <!-- Tools Cards Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="directory-tools-grid">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  $(Get-SubmitModalHTML)
+
+  <script>
+    const CATEGORIES = $categoriesJson;
+    const TOOLS = $toolsJson;
+
+    let activeCategorySlug = null;
+    let activePricingFilter = 'all';
+
+    function initApp() {
+      renderCategoryPills();
+      renderDirectoryTools();
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchQ = urlParams.get('search');
+      if (searchQ) {
+        document.getElementById('globalSearch').value = searchQ;
+        handleGlobalSearch(searchQ);
+      }
+      lucide.createIcons();
+    }
+
+    function showSection(section) {
+      document.getElementById('section-home').classList.add('hidden');
+      document.getElementById('section-directory').classList.add('hidden');
+
+      const navHome = document.getElementById('nav-home');
+      const navDir = document.getElementById('nav-directory');
+
+      if (section === 'home') {
+        document.getElementById('section-home').classList.remove('hidden');
+        navHome.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
+        navDir.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
+      } else {
+        document.getElementById('section-directory').classList.remove('hidden');
+        navDir.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
+        navHome.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderCategoryPills() {
+      const container = document.getElementById('category-pills');
+      const allActive = !activeCategorySlug;
+
+      let html = \`
+        <button onclick="filterByCategory(null)" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all \${allActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+          All Categories
+        </button>
+      \`;
+
+      html += CATEGORIES.map(cat => {
+        const isActive = activeCategorySlug === cat.slug;
+        return \`
+          <button onclick="filterByCategory('\${cat.slug}')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap \${isActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+            \${cat.name}
+          </button>
+        \`;
+      }).join('');
+
+      container.innerHTML = html;
+    }
+
+    function filterByCategory(slug) {
+      activeCategorySlug = slug;
+      showSection('directory');
+      renderCategoryPills();
+      renderDirectoryTools();
+
+      const cat = CATEGORIES.find(c => c.slug === slug);
+      document.getElementById('dir-title').innerText = cat ? cat.name : "All AI Tools";
+    }
+
+    function setPricingFilter(pricing) {
+      activePricingFilter = pricing;
+      renderDirectoryTools();
+    }
+
+    function handleGlobalSearch(query) {
+      if (query.trim().length > 0) {
+        document.getElementById('dirSearch').value = query;
+        showSection('directory');
+        renderDirectoryTools();
+      }
+    }
+
+    function renderDirectoryTools() {
+      const query = document.getElementById('dirSearch').value.toLowerCase();
+      const currentCat = CATEGORIES.find(c => c.slug === activeCategorySlug);
+
+      const filtered = TOOLS.filter(t => {
+        const matchesCategory = currentCat ? (t.categoryId === currentCat.id || t.categorySlug === currentCat.slug) : true;
+        const matchesPricing = activePricingFilter === 'all' ? true : t.pricingModel.toLowerCase() === activePricingFilter.toLowerCase();
+        const matchesSearch = t.name.toLowerCase().includes(query) || t.shortDescription.toLowerCase().includes(query);
+        return matchesCategory && matchesPricing && matchesSearch;
+      });
+
+      document.getElementById('dir-count').innerText = \`\${filtered.length} \${filtered.length === 1 ? 'tool' : 'tools'} available\`;
+      const grid = document.getElementById('directory-tools-grid');
+
+      if (filtered.length > 0) {
+        grid.innerHTML = filtered.map(createToolCardHTML).join('');
+      } else {
+        grid.innerHTML = \`
+          <div class="col-span-full text-center py-16 glass-panel rounded-2xl border-dashed">
+            <i data-lucide="search-x" class="w-10 h-10 text-zinc-500 mx-auto mb-3"></i>
+            <h3 class="text-lg font-semibold text-white">No tools found</h3>
+            <p class="text-xs text-zinc-400 mt-1">Try adjusting your category, pricing, or search term.</p>
+          </div>
+        \`;
+      }
+      lucide.createIcons();
+    }
+
+    function createToolCardHTML(tool) {
+      const category = CATEGORIES.find(c => c.id === tool.categoryId || c.slug === tool.categorySlug);
+      return \`
+        <div onclick="window.location.href='tools/\${tool.slug}/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-start justify-between gap-3 pb-3">
+              <div class="flex items-center gap-3">
+                <a href="tools/\${tool.slug}/index.html">
+                  <img src="\${tool.logoUrl || tool.logo}" alt="\${tool.name}" loading="lazy" width="40" height="40"
+                       class="w-10 h-10 rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-1 shrink-0 group-hover:scale-105 transition-transform" 
+                       onerror="this.src='logo.jpg'" />
+                </a>
+                <div>
+                  <a href="tools/\${tool.slug}/index.html" class="font-semibold text-white group-hover:text-indigo-400 transition-colors">\${tool.name}</a>
+                  <span class="text-xs text-zinc-400 block">\${category ? category.name : ''}</span>
+                </div>
+              </div>
+              <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-medium shrink-0">\${tool.pricingModel}</span>
+            </div>
+            <p class="text-xs text-zinc-300 line-clamp-3 leading-relaxed mt-1">\${tool.shortDescription}</p>
+          </div>
+          <div class="pt-4 mt-3 border-t border-zinc-800/80 flex items-center justify-between">
+            <div class="flex items-center gap-1 text-xs font-semibold text-amber-400">
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+              <span>\${tool.rating}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="tools/\${tool.slug}/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors">Try Now</a>
+              <a href="tools/\${tool.slug}/index.html" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1">Details &rsaquo;</a>
+            </div>
+          </div>
+        </div>
+      \`;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initApp();
+    });
+  </script>
+</body>
+</html>
+"@
+
+Set-Content -Path (Join-Path $rootDir "index.html") -Value $homepageHtml -Encoding UTF8
+Write-Host "Generated index.html successfully."
+
+# 4. Generate Sitemap.xml
 Write-Host "Generating sitemap.xml..."
 $today = (Get-Date).ToString("yyyy-MM-dd")
 
@@ -729,7 +1293,7 @@ $($urlNodes -join "`n")
 Set-Content -Path (Join-Path $rootDir "sitemap.xml") -Value $sitemapXml -Encoding UTF8
 Write-Host "Generated sitemap.xml."
 
-# 4. Generate Robots.txt
+# 5. Generate Robots.txt
 Write-Host "Generating robots.txt..."
 $robotsTxt = @"
 User-agent: *
