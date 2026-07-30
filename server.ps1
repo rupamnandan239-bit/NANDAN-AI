@@ -55,6 +55,10 @@ while ($true) {
         $cleanRelPath = $decodedPath.TrimStart('/').Replace('/', '\')
         $filePath = [System.IO.Path]::Combine($rootDir, $cleanRelPath)
 
+        if (Test-Path $filePath -PathType Container) {
+            $filePath = [System.IO.Path]::Combine($filePath, "index.html")
+        }
+
         if (Test-Path $filePath -PathType Leaf) {
             $ext = [System.IO.Path]::GetExtension($filePath).ToLower()
             $contentType = if ($mimeTypes.ContainsKey($ext)) { $mimeTypes[$ext] } else { "application/octet-stream" }
@@ -66,9 +70,10 @@ while ($true) {
             $stream.Write($headerBytes, 0, $headerBytes.Length)
             $stream.Write($bytes, 0, $bytes.Length)
         } else {
-            $msg = "404 Not Found"
-            $msgBytes = [System.Text.Encoding]::UTF8.GetBytes($msg)
-            $header = "HTTP/1.1 404 Not Found`r`nContent-Type: text/plain`r`nContent-Length: $($msgBytes.Length)`r`nConnection: close`r`n`r`n"
+            $notFoundPath = [System.IO.Path]::Combine($rootDir, "404.html")
+            $msgBytes = if (Test-Path $notFoundPath) { [System.IO.File]::ReadAllBytes($notFoundPath) } else { [System.Text.Encoding]::UTF8.GetBytes("404 Not Found") }
+            $contentType = if (Test-Path $notFoundPath) { "text/html; charset=utf-8" } else { "text/plain" }
+            $header = "HTTP/1.1 404 Not Found`r`nContent-Type: $contentType`r`nContent-Length: $($msgBytes.Length)`r`nConnection: close`r`n`r`n"
             $headerBytes = [System.Text.Encoding]::ASCII.GetBytes($header)
             
             $stream.Write($headerBytes, 0, $headerBytes.Length)

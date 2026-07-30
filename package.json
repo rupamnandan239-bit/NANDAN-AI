@@ -4,8 +4,9 @@
   "description": "NANDAN AI - All in One AI Tools Directory",
   "main": "index.html",
   "scripts": {
-    "dev": "npx -y serve .",
-    "start": "npx -y serve ."
+    "build": "powershell -ExecutionPolicy Bypass -File build.ps1",
+    "dev": "powershell -ExecutionPolicy Bypass -File build.ps1; npx -y serve .",
+    "start": "powershell -ExecutionPolicy Bypass -File build.ps1; npx -y serve ."
   },
   "keywords": [
     "ai",
