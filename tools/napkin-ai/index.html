@@ -294,15 +294,59 @@
               </div>
             </div>
 
-            <!-- Social Sharing -->
-            <div class="flex items-center gap-2 sm:self-center bg-zinc-900/80 p-2 rounded-xl border border-zinc-800">
-              <span class="text-xs text-zinc-400 font-medium px-2 hidden sm:inline">Share:</span>
-              <button onclick="shareOnTwitter()" title="Share on Twitter" class="p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white hover:bg-indigo-600 transition-colors"><i data-lucide="twitter" class="w-4 h-4"></i></button>
-              <button onclick="shareOnLinkedIn()" title="Share on LinkedIn" class="p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white hover:bg-blue-600 transition-colors"><i data-lucide="linkedin" class="w-4 h-4"></i></button>
-              <button onclick="shareOnFacebook()" title="Share on Facebook" class="p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white hover:bg-blue-700 transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></button>
-              <button onclick="shareOnWhatsApp()" title="Share on WhatsApp" class="p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white hover:bg-emerald-600 transition-colors"><i data-lucide="message-circle" class="w-4 h-4"></i></button>
-              <button onclick="copyToolLink()" title="Copy Link" class="p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white hover:bg-indigo-600 transition-colors"><i data-lucide="link" class="w-4 h-4"></i></button>
+            <!-- Hero Primary CTA Button -->
+            <div class="flex items-center gap-3 w-full sm:w-auto sm:self-center">
+              <a href="https://napkin.ai" target="_blank" rel="noopener noreferrer" 
+                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-extrabold text-sm sm:text-base px-6 py-3.5 rounded-xl shadow-xl shadow-indigo-600/30 hover:shadow-cyan-500/40 hover:scale-105 transition-all duration-300 group shrink-0">
+                <span>Visit Official Website</span>
+                <svg class="w-4 h-4 text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
             </div>
+          </div>
+        </div>
+
+        <!-- Quick Action Bar & Social Sharing -->
+        <div class="glass-panel p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 border-indigo-500/30 shadow-lg">
+          <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+            <a href="https://napkin.ai" target="_blank" rel="noopener noreferrer" 
+               class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all">
+              <span>Visit Official Website</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+            <button onclick="copyToolLink()" class="inline-flex items-center gap-1.5 bg-zinc-800/90 hover:bg-zinc-700 text-zinc-200 px-3.5 py-2 rounded-xl text-xs font-semibold border border-zinc-700/60 transition-colors">
+              <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              <span>Copy Link</span>
+            </button>
+          </div>
+
+          <!-- All 8 Share Buttons with SVG Icons -->
+          <div class="flex items-center gap-1.5 flex-wrap justify-center sm:justify-end">
+            <span class="text-xs text-zinc-400 font-semibold mr-1">Share:</span>
+            
+            <button onclick="shareOnTwitter()" title="Share on X (Twitter)" class="p-2 rounded-lg bg-zinc-800/90 text-zinc-300 hover:text-white hover:bg-black border border-zinc-700/60 transition-all">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </button>
+            <button onclick="shareOnFacebook()" title="Share on Facebook" class="p-2 rounded-lg bg-zinc-800/90 text-zinc-300 hover:text-white hover:bg-blue-600 border border-zinc-700/60 transition-all">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </button>
+            <button onclick="shareOnLinkedIn()" title="Share on LinkedIn" class="p-2 rounded-lg bg-zinc-800/90 text-zinc-300 hover:text-white hover:bg-blue-700 border border-zinc-700/60 transition-all">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </button>
+            <button onclick="shareOnWhatsApp()" title="Share on WhatsApp" class="p-2 rounded-lg bg-zinc-800/90 text-zinc-300 hover:text-white hover:bg-emerald-600 border border-zinc-700/60 transition-all">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            </button>
+            <button onclick="shareOnTelegram()" title="Share on Telegram" class="p-2 rounded-lg bg-zinc-800/90 text-zinc-300 hover:text-white hover:bg-sky-500 border border-zinc-700/60 transition-all">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.139-5.062 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.119.098.152.228.166.331.016.115.034.364.019.566z"/></svg>
+            </button>
+            <button onclick="shareOnReddit()" title="Share on Reddit" class="p-2 rounded-lg bg-zinc-800/90 text-zinc-300 hover:text-white hover:bg-orange-600 border border-zinc-700/60 transition-all">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.196-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.056 1.597.027.2.042.404.042.61 0 3.1-3.616 5.613-8.077 5.613s-8.077-2.513-8.077-5.613c0-.206.015-.41.042-.61A1.75 1.75 0 0 1 2.804 12.1c0-.968.786-1.754 1.754-1.754.466 0 .888.182 1.196.491 1.194-.856 2.85-1.418 4.674-1.488l1.01-4.733 3.284.693c.09-.452.489-.796.968-.796zM9.25 13c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm5.5 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm-5.465 4.54a.434.434 0 0 0-.306.741c1.066 1.066 3.036 1.171 3.521 1.171.485 0 2.455-.105 3.521-1.171a.434.434 0 0 0-.612-.613c-.767.766-2.22.935-2.909.935-.689 0-2.142-.169-2.909-.935a.43.43 0 0 0-.306-.128z"/></svg>
+            </button>
+            <button onclick="shareViaEmail()" title="Share via Email" class="p-2 rounded-lg bg-zinc-800/90 text-zinc-300 hover:text-white hover:bg-rose-600 border border-zinc-700/60 transition-all">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg>
+            </button>
+            <button onclick="copyToolLink()" title="Copy Link" class="p-2 rounded-lg bg-zinc-800/90 text-zinc-300 hover:text-white hover:bg-indigo-600 border border-zinc-700/60 transition-all">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
           </div>
         </div>
 
@@ -577,6 +621,37 @@
     </div>
   </div>
 
+  <!-- Floating Desktop Scroll CTA -->
+  <div id="desktop-scroll-cta" class="hidden sm:flex fixed bottom-6 right-6 z-40 transition-all duration-500 opacity-0 translate-y-6 pointer-events-none">
+    <a href="https://napkin.ai" target="_blank" rel="noopener noreferrer" 
+       class="inline-flex items-center gap-2.5 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-extrabold text-sm px-6 py-3.5 rounded-2xl shadow-2xl shadow-indigo-500/40 hover:scale-105 border border-indigo-400/30 backdrop-blur-md transition-all">
+      <span>Visit Official Website</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+    </a>
+  </div>
+
+  <!-- Sticky Mobile Bottom Bar -->
+  <div class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-800/80 p-3 flex items-center justify-between gap-3 shadow-2xl">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <img src="https://napkin.ai/favicon.ico" alt="Napkin AI" class="w-8 h-8 rounded-lg object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 shrink-0" onerror="this.src='../../logo.jpg'" />
+      <div class="truncate">
+        <p class="text-xs font-bold text-white truncate">Napkin AI</p>
+        <p class="text-[10px] text-zinc-400 truncate">Productivity</p>
+      </div>
+    </div>
+    <a href="https://napkin.ai" target="_blank" rel="noopener noreferrer" 
+       class="inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-indigo-600 to-cyan-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg shrink-0">
+      <span>Visit Site</span>
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+    </a>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-notification" class="fixed bottom-16 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 bg-indigo-600 text-white text-xs font-bold px-5 py-3 rounded-2xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none translate-y-4 flex items-center gap-2.5 border border-indigo-400/40 backdrop-blur-md">
+    <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+    <span id="toast-message">Page link copied to clipboard!</span>
+  </div>
+
       <div id="submit-modal"
       class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
       <div class="glass-panel max-w-lg w-full rounded-2xl p-6 sm:p-8 relative border-indigo-500/40 shadow-2xl">
@@ -672,11 +747,49 @@
       }
     }
 
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      const toastMsg = document.getElementById('toast-message');
+      if (toast && toastMsg) {
+        toastMsg.innerText = msg;
+        toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(() => {
+          toast.classList.remove('opacity-100', 'translate-y-0');
+          toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+        }, 3000);
+      }
+    }
+
+    function copyToolLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showToast('Page link copied to clipboard!');
+      }).catch(() => {
+        showToast('Page link copied to clipboard!');
+      });
+    }
+
     function shareOnTwitter() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent('Check out Napkin AI on NANDAN AI: ') + '&url=' + encodeURIComponent(window.location.href), '_blank'); }
-    function shareOnLinkedIn() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(window.location.href), '_blank'); }
     function shareOnFacebook() { window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank'); }
+    function shareOnLinkedIn() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(window.location.href), '_blank'); }
     function shareOnWhatsApp() { window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent('Check out Napkin AI on NANDAN AI: ' + window.location.href), '_blank'); }
-    function copyToolLink() { navigator.clipboard.writeText(window.location.href); alert('Tool link copied to clipboard!'); }
+    function shareOnTelegram() { window.open('https://t.me/share/url?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent('Napkin AI - AI Tool Directory'), '_blank'); }
+    function shareOnReddit() { window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(window.location.href) + '&title=' + encodeURIComponent('Napkin AI - AI Tool Directory'), '_blank'); }
+    function shareViaEmail() { window.open('mailto:?subject=' + encodeURIComponent('Check out Napkin AI on NANDAN AI') + '&body=' + encodeURIComponent('Check out Napkin AI: ' + window.location.href), '_blank'); }
+
+    window.addEventListener('scroll', () => {
+      const desktopCta = document.getElementById('desktop-scroll-cta');
+      if (desktopCta) {
+        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        if (scrollPercent > 35) {
+          desktopCta.classList.remove('opacity-0', 'translate-y-6', 'pointer-events-none');
+          desktopCta.classList.add('opacity-100', 'translate-y-0');
+        } else {
+          desktopCta.classList.remove('opacity-100', 'translate-y-0');
+          desktopCta.classList.add('opacity-0', 'translate-y-6', 'pointer-events-none');
+        }
+      }
+    });
   </script>
 </body>
 </html>
