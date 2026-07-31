@@ -1744,13 +1744,14 @@ tools.forEach(t => {
   urls.push({ loc: `${DOMAIN}/tools/${t.slug}`, priority: '0.9', changefreq: 'weekly' });
 });
 
-// Deduplicate URLs to ensure uniqueness
+// Deduplicate and ensure only canonical URLs remain (filter out /index.html, /404.html)
 const uniqueUrls = [];
 const seenLocs = new Set();
 for (const u of urls) {
-  if (!seenLocs.has(u.loc)) {
-    seenLocs.add(u.loc);
-    uniqueUrls.push(u);
+  const cleanLoc = u.loc.replace(/\/index\.html$/, '/').replace(/\/404\.html$/, '');
+  if (!cleanLoc.includes('/index.html') && !cleanLoc.includes('/404.html') && !seenLocs.has(cleanLoc)) {
+    seenLocs.add(cleanLoc);
+    uniqueUrls.push({ ...u, loc: cleanLoc });
   }
 }
 

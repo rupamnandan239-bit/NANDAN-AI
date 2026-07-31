@@ -1438,16 +1438,18 @@ Write-Host "Generated index.html successfully."
 Write-Host "Generating sitemap.xml..."
 $today = (Get-Date).ToString("yyyy-MM-dd")
 
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+
 $urlNodes = @(
-    "  <url><loc>$DOMAIN/</loc><lastmod>$today</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>"
+    "  <url>`n    <loc>$DOMAIN/</loc>`n    <lastmod>$today</lastmod>`n    <changefreq>daily</changefreq>`n    <priority>1.0</priority>`n  </url>"
 )
 
 foreach ($c in $categories) {
-    $urlNodes += "  <url><loc>$DOMAIN/category/$($c.slug)</loc><lastmod>$today</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>"
+    $urlNodes += "  <url>`n    <loc>$DOMAIN/category/$($c.slug)</loc>`n    <lastmod>$today</lastmod>`n    <changefreq>weekly</changefreq>`n    <priority>0.8</priority>`n  </url>"
 }
 
 foreach ($t in $tools) {
-    $urlNodes += "  <url><loc>$DOMAIN/tools/$($t.slug)</loc><lastmod>$today</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>"
+    $urlNodes += "  <url>`n    <loc>$DOMAIN/tools/$($t.slug)</loc>`n    <lastmod>$today</lastmod>`n    <changefreq>weekly</changefreq>`n    <priority>0.9</priority>`n  </url>"
 }
 
 $urlNodes = $urlNodes | Select-Object -Unique
@@ -1459,8 +1461,8 @@ $($urlNodes -join "`n")
 </urlset>
 "@
 
-Set-Content -Path (Join-Path $rootDir "sitemap.xml") -Value $sitemapXml -Encoding UTF8
-Write-Host "Generated sitemap.xml."
+[System.IO.File]::WriteAllText((Join-Path $rootDir "sitemap.xml"), $sitemapXml, $utf8NoBom)
+Write-Host "Generated sitemap.xml (UTF-8 without BOM)."
 
 # 5. Generate Robots.txt
 Write-Host "Generating robots.txt..."
@@ -1471,7 +1473,7 @@ Allow: /
 Sitemap: $DOMAIN/sitemap.xml
 "@
 
-Set-Content -Path (Join-Path $rootDir "robots.txt") -Value $robotsTxt -Encoding UTF8
-Write-Host "Generated robots.txt."
+[System.IO.File]::WriteAllText((Join-Path $rootDir "robots.txt"), $robotsTxt, $utf8NoBom)
+Write-Host "Generated robots.txt (UTF-8 without BOM)."
 
 Write-Host "Build complete via PowerShell script."
