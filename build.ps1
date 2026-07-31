@@ -1439,9 +1439,7 @@ Write-Host "Generating sitemap.xml..."
 $today = (Get-Date).ToString("yyyy-MM-dd")
 
 $urlNodes = @(
-    "  <url><loc>$DOMAIN/</loc><lastmod>$today</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>",
-    "  <url><loc>$DOMAIN/index.html</loc><lastmod>$today</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>",
-    "  <url><loc>$DOMAIN/404.html</loc><lastmod>$today</lastmod><changefreq>monthly</changefreq><priority>0.1</priority></url>"
+    "  <url><loc>$DOMAIN/</loc><lastmod>$today</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>"
 )
 
 foreach ($c in $categories) {
@@ -1451,6 +1449,8 @@ foreach ($c in $categories) {
 foreach ($t in $tools) {
     $urlNodes += "  <url><loc>$DOMAIN/tools/$($t.slug)</loc><lastmod>$today</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>"
 }
+
+$urlNodes = $urlNodes | Select-Object -Unique
 
 $sitemapXml = @"
 <?xml version="1.0" encoding="UTF-8"?>

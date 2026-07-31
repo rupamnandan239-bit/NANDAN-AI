@@ -1733,9 +1733,7 @@ console.log('Generating sitemap.xml...');
 const today = new Date().toISOString().split('T')[0];
 
 const urls = [
-  { loc: `${DOMAIN}/`, priority: '1.0', changefreq: 'daily' },
-  { loc: `${DOMAIN}/index.html`, priority: '0.9', changefreq: 'daily' },
-  { loc: `${DOMAIN}/404.html`, priority: '0.1', changefreq: 'monthly' }
+  { loc: `${DOMAIN}/`, priority: '1.0', changefreq: 'daily' }
 ];
 
 categories.forEach(cat => {
@@ -1746,9 +1744,19 @@ tools.forEach(t => {
   urls.push({ loc: `${DOMAIN}/tools/${t.slug}`, priority: '0.9', changefreq: 'weekly' });
 });
 
+// Deduplicate URLs to ensure uniqueness
+const uniqueUrls = [];
+const seenLocs = new Set();
+for (const u of urls) {
+  if (!seenLocs.has(u.loc)) {
+    seenLocs.add(u.loc);
+    uniqueUrls.push(u);
+  }
+}
+
 const sitemapXML = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(u => `  <url>
+${uniqueUrls.map(u => `  <url>
     <loc>${u.loc}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${u.changefreq}</changefreq>
@@ -1757,7 +1765,7 @@ ${urls.map(u => `  <url>
 </urlset>`;
 
 fs.writeFileSync(path.join(__dirname, 'sitemap.xml'), sitemapXML, 'utf8');
-console.log(`Generated sitemap.xml with ${urls.length} URLs.`);
+console.log(`Generated sitemap.xml with ${uniqueUrls.length} URLs.`);
 
 // -------------------------------------------------------------
 // 6. GENERATE ROBOTS.TXT
