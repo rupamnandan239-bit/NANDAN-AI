@@ -47,12 +47,56 @@ function generateHeaderHTML(relativePathPrefix = '') {
           All Tools
         </a>
         <button onclick="openSubmitModal()"
-          class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-md text-xs sm:text-sm font-medium transition-colors shadow-lg shadow-indigo-600/30">
-          <span class="hidden sm:inline">Submit Tool</span>
-          <span class="sm:hidden">Submit</span>
+          class="hidden sm:inline-flex items-center bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg sm:rounded-md text-xs sm:text-sm font-medium transition-colors shadow-lg shadow-indigo-600/30">
+          Submit Tool
+        </button>
+        <button onclick="toggleMobileMenu()" id="mobile-menu-btn" aria-label="Toggle Navigation Menu"
+          class="sm:hidden p-2 text-zinc-300 hover:text-white bg-zinc-800/80 hover:bg-zinc-700 rounded-lg border border-zinc-700/60 transition-colors">
+          <i data-lucide="menu" class="w-5 h-5" id="mobile-menu-icon"></i>
         </button>
       </div>
     </header>
+
+    <!-- Mobile Navigation Drawer / Hamburger Menu -->
+    <div id="mobile-nav-menu" class="fixed inset-x-0 top-16 z-40 bg-zinc-950/95 backdrop-blur-xl border-b border-zinc-800 p-4 hidden flex-col gap-4 shadow-2xl transition-all sm:hidden">
+      <div class="flex flex-col gap-2">
+        <a href="${relativePathPrefix}index.html" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-indigo-400"></i>
+          Dashboard
+        </a>
+        <a href="${relativePathPrefix}index.html#section-directory" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
+          <i data-lucide="grid" class="w-4 h-4 text-cyan-400"></i>
+          All Tools
+        </a>
+      </div>
+
+      <div class="pt-2 border-t border-zinc-800/80">
+        <button onclick="openSubmitModal(); toggleMobileMenu();" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          Submit Tool
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-nav-menu');
+        const icon = document.getElementById('mobile-menu-icon');
+        if (menu) {
+          const isHidden = menu.classList.contains('hidden');
+          if (isHidden) {
+            menu.classList.remove('hidden');
+            menu.classList.add('flex');
+            if (icon) icon.setAttribute('data-lucide', 'x');
+          } else {
+            menu.classList.add('hidden');
+            menu.classList.remove('flex');
+            if (icon) icon.setAttribute('data-lucide', 'menu');
+          }
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+      }
+    </script>
   `;
 }
 
@@ -90,6 +134,13 @@ function generateSidebarHTML(relativePathPrefix = '', activeSlug = null) {
               All Tools
             </a>
           </li>
+          <li>
+            <button onclick="openSubmitModal()"
+              class="w-full text-zinc-300 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors text-left">
+              <i data-lucide="plus-circle" class="w-4 h-4 text-indigo-400"></i>
+              Submit Tool
+            </button>
+          </li>
         </ul>
       </div>
 
@@ -111,6 +162,35 @@ function generateSidebarHTML(relativePathPrefix = '', activeSlug = null) {
         </div>
       </div>
     </aside>
+  `;
+}
+
+// Generate Common Footer HTML
+function generateFooterHTML(relativePathPrefix = '') {
+  return `
+    <footer class="glass-header mt-12 border-t border-zinc-800/80 py-8 px-4 sm:px-6 relative z-10">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <img src="${relativePathPrefix}logo.jpg" alt="NANDAN AI Logo" class="w-8 h-8 rounded-lg object-cover border border-cyan-500/40 shrink-0" />
+          <div>
+            <span class="font-extrabold text-white text-base tracking-wider">NANDAN AI</span>
+            <p class="text-xs text-zinc-400">All in One AI Tools Directory</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-zinc-300 font-medium">
+          <a href="${relativePathPrefix}index.html" class="hover:text-indigo-400 transition-colors">Home</a>
+          <a href="${relativePathPrefix}index.html#section-directory" class="hover:text-indigo-400 transition-colors">All Tools</a>
+          <button onclick="openSubmitModal()" class="hover:text-indigo-400 text-indigo-400 font-semibold transition-colors flex items-center gap-1.5 bg-indigo-600/10 hover:bg-indigo-600/20 px-3 py-1.5 rounded-lg border border-indigo-500/30">
+            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Submit Tool
+          </button>
+        </div>
+
+        <div class="text-xs text-zinc-500 text-center md:text-right">
+          &copy; ${new Date().getFullYear()} NANDAN AI. All rights reserved.
+        </div>
+      </div>
+    </footer>
   `;
 }
 
@@ -756,6 +836,7 @@ tools.forEach((tool, index) => {
     <span id="toast-message">Page link copied to clipboard!</span>
   </div>
 
+  ${generateFooterHTML(relPath)}
   ${generateSubmitModalHTML()}
 
   <script>
@@ -1014,6 +1095,7 @@ categories.forEach(cat => {
     </div>
   </div>
 
+  ${generateFooterHTML(relPath)}
   ${generateSubmitModalHTML()}
 
   <script>
@@ -1378,6 +1460,7 @@ const homeHTML = `<!DOCTYPE html>
     </div>
   </div>
 
+  ${generateFooterHTML('')}
   ${generateSubmitModalHTML()}
 
   <script>
@@ -1630,6 +1713,7 @@ const page404HTML = `<!DOCTYPE html>
     </main>
   </div>
 
+  ${generateFooterHTML('')}
   ${generateSubmitModalHTML()}
 
   <script>
