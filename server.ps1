@@ -26,6 +26,8 @@ $mimeTypes = @{
 while ($true) {
     try {
         $client = $listener.AcceptTcpClient()
+        $client.ReceiveTimeout = 2000
+        $client.SendTimeout = 2000
         $stream = $client.GetStream()
         $reader = [System.IO.StreamReader]::new($stream, [System.Text.Encoding]::ASCII)
 
@@ -64,7 +66,7 @@ while ($true) {
             $contentType = if ($mimeTypes.ContainsKey($ext)) { $mimeTypes[$ext] } else { "application/octet-stream" }
             $bytes = [System.IO.File]::ReadAllBytes($filePath)
 
-            $header = "HTTP/1.1 200 OK`r`nContent-Type: $contentType`r`nContent-Length: $($bytes.Length)`r`nAccess-Control-Allow-Origin: *`r`nCache-Control: public, max-age=3600`r`nConnection: close`r`n`r`n"
+            $header = "HTTP/1.1 200 OK`r`nContent-Type: $contentType`r`nContent-Length: $($bytes.Length)`r`nAccess-Control-Allow-Origin: *`r`nCache-Control: no-cache, no-store, must-revalidate`r`nConnection: close`r`n`r`n"
             $headerBytes = [System.Text.Encoding]::ASCII.GetBytes($header)
             
             $stream.Write($headerBytes, 0, $headerBytes.Length)

@@ -33,11 +33,11 @@ function Get-HeaderHTML($relPath) {
         </a>
       </div>
 
-      <div class="relative flex-1 max-w-[200px] xs:max-w-xs sm:max-w-md md:w-96 mx-1 sm:mx-0">
+      <div class="relative flex-1 max-w-[180px] xs:max-w-xs sm:max-w-md md:w-96 mx-1 sm:mx-0">
         <span class="absolute inset-y-0 left-2.5 sm:left-3 flex items-center text-zinc-400 pointer-events-none">
           <i data-lucide="search" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
         </span>
-        <input type="text" id="globalHeaderSearch" onkeydown="if(event.key==='Enter') location.href='${relPath}index.html?search=' + encodeURIComponent(this.value)"
+        <input type="text" id="globalHeaderSearch" oninput="if(typeof handleGlobalSearch==='function'){handleGlobalSearch(this.value)}" onkeydown="if(event.key==='Enter' && typeof handleGlobalSearch!=='function'){location.href='${relPath}index.html?search=' + encodeURIComponent(this.value)}"
           placeholder="Search AI tools..."
           class="w-full bg-zinc-900/90 border border-zinc-700/60 rounded-lg py-1.5 sm:py-2 pl-8 sm:pl-10 pr-2.5 sm:pr-4 text-xs sm:text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
       </div>
@@ -320,7 +320,7 @@ for ($i = 0; $i -lt $tools.Count; $i++) {
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5' } } } } }
+    tailwind.config = { darkMode: 'class', theme: { extend: { screens: { xs: '475px' }, colors: { brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5' } } } } }
   </script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -713,7 +713,7 @@ foreach ($cat in $categories) {
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5' } } } } }
+    tailwind.config = { darkMode: 'class', theme: { extend: { screens: { xs: '475px' }, colors: { brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5' } } } } }
   </script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -887,6 +887,8 @@ $catSidebarHtml = ($categories | ForEach-Object {
 "@
 }) -join "`n"
 
+$headerCode = Get-HeaderHTML ""
+
 $homepageHtml = @"
 <!DOCTYPE html>
 <html lang="en" class="dark">
@@ -913,6 +915,7 @@ $homepageHtml = @"
       darkMode: 'class',
       theme: {
         extend: {
+          screens: { xs: '475px' },
           colors: {
             brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca' }
           }
@@ -961,38 +964,7 @@ $homepageHtml = @"
 
   <div class="app-viewport flex flex-col">
 
-    <header class="glass-header sticky top-0 z-50 h-16 px-6 flex items-center justify-between">
-      <div class="flex items-center gap-8">
-        <a href="#" onclick="showSection('home')" class="flex items-center gap-3 group">
-          <img src="logo.jpg" alt="NANDAN AI Logo"
-            class="w-10 h-10 rounded-xl object-cover shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform border border-cyan-500/30" />
-          <div class="flex flex-col">
-            <span class="font-extrabold text-xl tracking-wider text-white leading-none">NANDAN AI</span>
-            <span class="text-[9px] font-bold tracking-widest text-cyan-400 uppercase mt-0.5">ALL IN ONE AI</span>
-          </div>
-        </a>
-
-        <div class="relative w-96 hidden md:block">
-          <span class="absolute inset-y-0 left-3 flex items-center text-zinc-400">
-            <i data-lucide="search" class="w-4 h-4"></i>
-          </span>
-          <input type="text" id="globalSearch" oninput="handleGlobalSearch(this.value)"
-            placeholder="Search 2,400+ AI tools..."
-            class="w-full bg-zinc-900/80 border border-zinc-700/60 rounded-md py-2 pl-10 pr-4 text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
-        </div>
-      </div>
-
-      <div class="flex items-center gap-4">
-        <button onclick="showSection('directory')"
-          class="text-sm font-medium text-zinc-300 hover:text-indigo-400 hidden sm:block transition-colors">
-          All Tools
-        </button>
-        <button onclick="openSubmitModal()"
-          class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-lg shadow-indigo-600/30">
-          Submit Tool
-        </button>
-      </div>
-    </header>
+    $headerCode
 
     <div class="flex flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 gap-6">
 
@@ -1077,7 +1049,7 @@ $homepageHtml = @"
                 <p class="text-xs text-zinc-400 mt-1 line-clamp-2">$($trendingTools[0].shortDescription)</p>
               </div>
               <div class="pt-4 flex items-center justify-between border-t border-zinc-800/60 mt-2">
-                <span class="text-xs font-semibold text-emerald-400">★ $($trendingTools[0].rating)</span>
+                <span class="text-xs font-semibold text-emerald-400">&#9733; $($trendingTools[0].rating)</span>
                 <div class="flex items-center gap-2">
                   <a href="tools/$($trendingTools[0].slug)/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-0.5 rounded text-[11px] font-semibold transition-colors">Try Now</a>
                   <a href="tools/$($trendingTools[0].slug)/index.html" class="text-xs text-indigo-400 hover:underline">Details &rsaquo;</a>
@@ -1098,7 +1070,7 @@ $homepageHtml = @"
                 <p class="text-xs text-zinc-400 mt-1 line-clamp-2">$($trendingTools[1].shortDescription)</p>
               </div>
               <div class="pt-4 flex items-center justify-between border-t border-zinc-800/60 mt-2">
-                <span class="text-xs font-semibold text-blue-400">★ $($trendingTools[1].rating)</span>
+                <span class="text-xs font-semibold text-blue-400">&#9733; $($trendingTools[1].rating)</span>
                 <div class="flex items-center gap-2">
                   <a href="tools/$($trendingTools[1].slug)/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-0.5 rounded text-[11px] font-semibold transition-colors">Try Now</a>
                   <a href="tools/$($trendingTools[1].slug)/index.html" class="text-xs text-indigo-400 hover:underline">Details &rsaquo;</a>
@@ -1235,7 +1207,8 @@ $homepageHtml = @"
       const urlParams = new URLSearchParams(window.location.search);
       const searchQ = urlParams.get('search');
       if (searchQ) {
-        document.getElementById('globalSearch').value = searchQ;
+        const gh = document.getElementById('globalHeaderSearch') || document.getElementById('globalSearch');
+        if (gh) gh.value = searchQ;
         handleGlobalSearch(searchQ);
       }
       lucide.createIcons();
