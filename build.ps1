@@ -43,7 +43,7 @@ function Get-HeaderHTML($relPath) {
       </div>
 
       <div class="flex items-center gap-2 sm:gap-4 shrink-0">
-        <a href="${relPath}index.html#section-directory"
+        <a href="${relPath}tools/index.html"
           class="text-sm font-medium text-zinc-300 hover:text-indigo-400 hidden lg:block transition-colors">
           All Tools
         </a>
@@ -61,7 +61,7 @@ function Get-HeaderHTML($relPath) {
     <!-- Mobile Navigation Drawer / Hamburger Menu -->
     <div id="mobile-nav-menu" class="fixed inset-x-0 top-16 z-40 bg-zinc-950/95 backdrop-blur-xl border-b border-zinc-800 p-4 hidden flex-col gap-4 shadow-2xl transition-all md:hidden">
       <div class="flex flex-col gap-2">
-        <a href="${relPath}index.html#section-directory" onclick="if(typeof showSection==='function'){showSection('directory');} toggleMobileMenu();" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
+        <a href="${relPath}tools/index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
           <i data-lucide="grid" class="w-4 h-4 text-cyan-400"></i>
           All AI Tools
         </a>
@@ -126,7 +126,7 @@ function Get-SidebarHTML($relPath, $activeSlug) {
             </a>
           </li>
           <li>
-            <a href="${relPath}index.html#section-directory"
+            <a href="${relPath}tools/index.html"
               class="w-full text-zinc-300 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors">
               <i data-lucide="grid" class="w-4 h-4 text-cyan-400"></i>
               All Tools
@@ -177,7 +177,7 @@ function Get-FooterHTML($relPath) {
 
         <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-zinc-300 font-medium">
           <a href="${relPath}index.html" class="hover:text-indigo-400 transition-colors">Home</a>
-          <a href="${relPath}index.html#section-directory" class="hover:text-indigo-400 transition-colors">All Tools</a>
+          <a href="${relPath}tools/index.html" class="hover:text-indigo-400 transition-colors">All Tools</a>
           <button onclick="openSubmitModal()" class="hover:text-indigo-400 text-indigo-400 font-semibold transition-colors flex items-center gap-1.5 bg-indigo-600/10 hover:bg-indigo-600/20 px-3 py-1.5 rounded-lg border border-indigo-500/30">
             <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Submit Tool
           </button>
@@ -1050,14 +1050,14 @@ $homepageHtml = @"
           <h3 class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Navigation</h3>
           <ul class="space-y-1">
             <li>
-              <button onclick="showSection('home')" id="nav-home"
+              <button onclick="window.location.href='index.html'" id="nav-home"
                 class="w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors">
                 <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                 Dashboard
               </button>
             </li>
             <li>
-              <button onclick="showSection('directory')" id="nav-directory"
+              <button onclick="window.location.href='tools/index.html'" id="nav-directory"
                 class="w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors">
                 <i data-lucide="grid" class="w-4 h-4"></i>
                 All Tools
@@ -1088,7 +1088,7 @@ $homepageHtml = @"
       <main class="flex-1 space-y-8 min-w-0">
 
         <!-- HOME SECTION (Desktop only) -->
-        <div id="section-home" class="hidden md:block space-y-8">
+        <div class="space-y-8">
 
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 
@@ -1180,7 +1180,7 @@ $homepageHtml = @"
                   <i data-lucide="layers" class="w-5 h-5 text-indigo-400"></i>
                   Popular Categories
                 </h3>
-                <button onclick="showSection('directory')"
+                <button onclick="window.location.href='tools/index.html'"
                   class="text-xs text-indigo-400 hover:text-indigo-300 font-medium">View All &rsaquo;</button>
               </div>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -1209,7 +1209,7 @@ $homepageHtml = @"
           <div class="glass-panel rounded-2xl p-6 space-y-4">
             <div class="flex items-center justify-between">
               <h3 class="font-bold text-white text-xl">Top AI Tools</h3>
-              <button onclick="showSection('directory')"
+              <button onclick="window.location.href='tools/index.html'"
                 class="text-sm text-indigo-400 hover:underline font-medium">Explore All $($tools.Count) Tools &rsaquo;</button>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -1219,7 +1219,86 @@ $homepageHtml = @"
 
         </div>
 
-        <!-- DIRECTORY PAGE SECTION -->
+        </main>
+    </div>
+  </div>
+
+  $(Get-FooterHTML '')
+  $(Get-SubmitModalHTML)
+
+  <script>
+    function initApp() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchQ = urlParams.get('search');
+      if (searchQ) {
+        const gh = document.getElementById('globalHeaderSearch') || document.getElementById('globalSearch');
+        if (gh) gh.value = searchQ;
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
+"@
+
+# -------------------------------------------------------------
+# X. GENERATE ALL TOOLS PAGE (/tools/index.html)
+# -------------------------------------------------------------
+Write-Host "Generating All Tools Page..."
+
+$allToolsHTML = @"
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/jpeg" href="../logo.jpg">
+  <title>All AI Tools Directory | NANDAN AI</title>
+  <meta name="description" content="Explore our full directory of AI tools and software.">
+  <link rel="canonical" href="$DOMAIN/tools">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { screens: { xs: '475px' }, colors: { brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5' } } } }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; width: 100%; background-color: #09090b; color: #fafafa; font-family: ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
+    #bg-video { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 0; pointer-events: none; }
+    .app-viewport { position: relative; z-index: 10; min-height: 100vh; }
+    .glass-panel { background: rgba(24, 24, 27, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .glass-header { background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .glass-card { background: rgba(24, 24, 27, 0.65); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+    .glass-card:hover { background: rgba(24, 24, 27, 0.85); border-color: rgba(99, 102, 241, 0.5); transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+  <video id="bg-video" autoplay loop muted playsinline>
+    <source src="../background.mp4" type="video/mp4" />
+  </video>
+
+  <div class="app-viewport flex flex-col">
+    $(Get-HeaderHTML '../')
+
+    <div class="flex flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 gap-6">
+      $(Get-SidebarHTML '../' $null)
+
+      <main class="flex-1 space-y-6 min-w-0">
+        <nav class="flex items-center gap-2 text-xs text-zinc-400 glass-panel px-4 py-3 rounded-xl border border-zinc-800/80 mb-4">
+          <a href="../index.html" class="hover:text-white flex items-center gap-1">
+            <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
+          </a>
+          <span>&rsaquo;</span>
+          <span class="text-white font-medium">All Tools</span>
+        </nav>
+        
+<!-- DIRECTORY PAGE SECTION -->
         <div id="section-directory" class="hidden space-y-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-6 rounded-2xl">
             <div>
@@ -1264,105 +1343,64 @@ $homepageHtml = @"
           </div>
         </div>
 
+      
       </main>
     </div>
   </div>
 
-  $(Get-FooterHTML '')
+  $(Get-FooterHTML '../')
   $(Get-SubmitModalHTML)
 
   <script>
     const CATEGORIES = $categoriesJson;
     const TOOLS = $toolsJson;
-
     let activeCategorySlug = null;
     let activePricingFilter = 'all';
 
     function initApp() {
+      document.getElementById('section-directory').classList.remove('hidden');
       renderCategoryPills();
       renderDirectoryTools();
-
-      const isMobile = window.innerWidth < 768;
-      if (isMobile) {
-        showSection('directory');
-      } else {
-        showSection('home');
-      }
 
       const urlParams = new URLSearchParams(window.location.search);
       const searchQ = urlParams.get('search');
       if (searchQ) {
-        const gh = document.getElementById('globalHeaderSearch') || document.getElementById('globalSearch');
+        const gh = document.getElementById('globalHeaderSearch');
         if (gh) gh.value = searchQ;
-        handleGlobalSearch(searchQ);
+        const dh = document.getElementById('dirSearch');
+        if (dh) dh.value = searchQ;
+        renderDirectoryTools();
       }
       if (typeof lucide !== 'undefined') lucide.createIcons();
     }
-
-    function showSection(section) {
-      const isMobile = window.innerWidth < 768;
-      const targetSection = isMobile ? 'directory' : section;
-
-      const secHome = document.getElementById('section-home');
-      const secDir = document.getElementById('section-directory');
-      if (secHome) secHome.classList.add('hidden');
-      if (secDir) secDir.classList.add('hidden');
-
-      const navHome = document.getElementById('nav-home');
-      const navDir = document.getElementById('nav-directory');
-
-      if (targetSection === 'home') {
-        if (secHome) secHome.classList.remove('hidden');
-        if (navHome) navHome.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
-        if (navDir) navDir.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
-      } else {
-        if (secDir) secDir.classList.remove('hidden');
-        if (navDir) navDir.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
-        if (navHome) navHome.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    function filterByCategory(slug) {
+      activeCategorySlug = slug;
+      renderCategoryPills();
+      renderDirectoryTools();
+      const cat = CATEGORIES.find(c => c.slug === slug);
+      const titleEl = document.getElementById('dir-title');
+      if (titleEl) titleEl.innerText = cat ? cat.name : "All AI Tools";
     }
-
-    window.addEventListener('resize', () => {
-      const isMobile = window.innerWidth < 768;
-      const secDir = document.getElementById('section-directory');
-      if (isMobile && secDir && secDir.classList.contains('hidden')) {
-        showSection('directory');
-      }
-    });
 
     function renderCategoryPills() {
       const container = document.getElementById('category-pills');
       if (!container) return;
       const allActive = !activeCategorySlug;
-
-      let html = ``
-        <button type="button" onclick="filterByCategory(null)" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 touch-manipulation `${allActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+      let html = \
+        <button type="button" onclick="filterByCategory(null)" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 touch-manipulation \">
           All Categories
         </button>
-      ``;
-
+      \;
       html += CATEGORIES.map(cat => {
         const isActive = activeCategorySlug === cat.slug;
-        return ``
-          <button type="button" onclick="filterByCategory('`${cat.slug}')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 touch-manipulation `${isActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
-            `${cat.name}
+        return \
+          <button type="button" onclick="filterByCategory('\')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 touch-manipulation \">
+            \
           </button>
-        ``;
+        \;
       }).join('');
-
       container.innerHTML = html;
-    }
-
-    function filterByCategory(slug) {
-      activeCategorySlug = slug;
-      showSection('directory');
-      renderCategoryPills();
-      renderDirectoryTools();
-
-      const cat = CATEGORIES.find(c => c.slug === slug);
-      const titleEl = document.getElementById('dir-title');
-      if (titleEl) titleEl.innerText = cat ? cat.name : "All AI Tools";
     }
 
     function setPricingFilter(pricing) {
@@ -1373,12 +1411,11 @@ $homepageHtml = @"
     function handleGlobalSearch(query) {
       const dirSearch = document.getElementById('dirSearch');
       if (dirSearch) dirSearch.value = query;
-      showSection('directory');
       renderDirectoryTools();
     }
 
     function renderDirectoryTools() {
-      const query = document.getElementById('dirSearch').value.toLowerCase();
+      const query = (document.getElementById('dirSearch') ? document.getElementById('dirSearch').value.toLowerCase() : '');
       const currentCat = CATEGORIES.find(c => c.slug === activeCategorySlug);
 
       const filtered = TOOLS.filter(t => {
@@ -1388,65 +1425,67 @@ $homepageHtml = @"
         return matchesCategory && matchesPricing && matchesSearch;
       });
 
-      document.getElementById('dir-count').innerText = ``${filtered.length} `${filtered.length === 1 ? 'tool' : 'tools'} available``;
+      document.getElementById('dir-count').innerText = \`\ \ available\;
       const grid = document.getElementById('directory-tools-grid');
 
       if (filtered.length > 0) {
         grid.innerHTML = filtered.map(createToolCardHTML).join('');
       } else {
-        grid.innerHTML = ``
+        grid.innerHTML = \
           <div class="col-span-full text-center py-16 glass-panel rounded-2xl border-dashed">
             <i data-lucide="search-x" class="w-10 h-10 text-zinc-500 mx-auto mb-3"></i>
             <h3 class="text-lg font-semibold text-white">No tools found</h3>
             <p class="text-xs text-zinc-400 mt-1">Try adjusting your category, pricing, or search term.</p>
           </div>
-        ``;
+        \;
       }
       lucide.createIcons();
     }
-
+    
     function createToolCardHTML(tool) {
       const category = CATEGORIES.find(c => c.id === tool.categoryId || c.slug === tool.categorySlug);
-      return ``
-        <div onclick="window.location.href='tools/`${tool.slug}/index.html'" class="cursor-pointer glass-card rounded-2xl p-5 flex flex-col justify-between group">
+      return \
+        <div onclick="window.location.href='../tools/\/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group">
           <div>
             <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
               <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                <a href="tools/`${tool.slug}/index.html" class="shrink-0">
-                  <img src="`${tool.logoUrl || tool.logo}" alt="`${tool.name}" loading="lazy" width="40" height="40"
+                <a href="../tools/\/index.html" class="shrink-0">
+                  <img src="../\" alt="\" loading="lazy" width="40" height="40"
                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain bg-zinc-900 border border-zinc-700/60 p-0.5 sm:p-1 shrink-0 group-hover:scale-105 transition-transform" 
-                       onerror="this.src='logo.jpg'" />
+                       onerror="this.src='../logo.jpg'" />
                 </a>
                 <div class="min-w-0">
-                  <a href="tools/`${tool.slug}/index.html" class="font-semibold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors truncate block">`${tool.name}</a>
-                  <span class="text-[11px] sm:text-xs text-zinc-400 block truncate">`${category ? category.name : ''}</span>
+                  <a href="../tools/\/index.html" class="font-semibold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors truncate block">\</a>
+                  <span class="text-[11px] sm:text-xs text-zinc-400 block truncate">\</span>
                 </div>
               </div>
-              <span class="text-[9px] sm:text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded font-medium shrink-0">`${tool.pricingModel}</span>
+              <span class="text-[9px] sm:text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded font-medium shrink-0">\</span>
             </div>
-            <p class="text-xs text-zinc-300 line-clamp-2 sm:line-clamp-3 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">`${tool.shortDescription}</p>
+            <p class="text-xs text-zinc-300 line-clamp-2 sm:line-clamp-3 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">\</p>
           </div>
           <div class="pt-2.5 sm:pt-4 mt-2 sm:mt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <div class="flex items-center gap-1 text-xs font-semibold text-amber-400">
               <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-              <span>`${tool.rating}</span>
+              <span>\</span>
             </div>
             <div class="flex items-center gap-1.5 sm:gap-2">
-              <a href="tools/`${tool.slug}/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-1 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold transition-colors">Try Now</a>
-              <a href="tools/`${tool.slug}/index.html" class="text-[11px] sm:text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5">Details &rsaquo;</a>
+              <a href="../tools/\/index.html" class="bg-indigo-600/80 hover:bg-indigo-600 text-white px-2.5 py-1 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold transition-colors">Try Now</a>
+              <a href="../tools/\/index.html" class="text-[11px] sm:text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5">Details &rsaquo;</a>
             </div>
           </div>
         </div>
-      ``;
+      \;
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      initApp();
-    });
+    window.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
 </html>
 "@
+
+Ensure-Directory (Join-Path $rootDir "tools")
+Set-Content -Path (Join-Path $rootDir "tools\index.html") -Value $allToolsHTML -Encoding UTF8
+Write-Host "Generated tools\index.html successfully."
 
 Set-Content -Path (Join-Path $rootDir "index.html") -Value $homepageHtml -Encoding UTF8
 Write-Host "Generated index.html successfully."
@@ -1494,3 +1533,4 @@ Sitemap: $DOMAIN/sitemap.xml
 Write-Host "Generated robots.txt (UTF-8 without BOM)."
 
 Write-Host "Build complete via PowerShell script."
+

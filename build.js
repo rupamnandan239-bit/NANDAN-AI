@@ -42,7 +42,7 @@ function generateHeaderHTML(relativePathPrefix = '') {
       </div>
 
       <div class="flex items-center gap-2 sm:gap-4 shrink-0">
-        <a href="${relativePathPrefix}index.html#section-directory"
+        <a href="${relativePathPrefix}tools/index.html"
           class="text-sm font-medium text-zinc-300 hover:text-indigo-400 hidden lg:block transition-colors">
           All Tools
         </a>
@@ -60,7 +60,7 @@ function generateHeaderHTML(relativePathPrefix = '') {
     <!-- Mobile Navigation Drawer / Hamburger Menu -->
     <div id="mobile-nav-menu" class="fixed inset-x-0 top-16 z-40 bg-zinc-950/95 backdrop-blur-xl border-b border-zinc-800 p-4 hidden flex-col gap-4 shadow-2xl transition-all md:hidden">
       <div class="flex flex-col gap-2">
-        <a href="${relativePathPrefix}index.html#section-directory" onclick="if(typeof showSection==='function'){showSection('directory');} toggleMobileMenu();" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
+        <a href="${relativePathPrefix}tools/index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
           <i data-lucide="grid" class="w-4 h-4 text-cyan-400"></i>
           All AI Tools
         </a>
@@ -124,7 +124,7 @@ function generateSidebarHTML(relativePathPrefix = '', activeSlug = null) {
             </a>
           </li>
           <li>
-            <a href="${relativePathPrefix}index.html#section-directory"
+            <a href="${relativePathPrefix}tools/index.html"
               class="w-full text-zinc-300 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors">
               <i data-lucide="grid" class="w-4 h-4 text-cyan-400"></i>
               All Tools
@@ -176,7 +176,7 @@ function generateFooterHTML(relativePathPrefix = '') {
 
         <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-zinc-300 font-medium">
           <a href="${relativePathPrefix}index.html" class="hover:text-indigo-400 transition-colors">Home</a>
-          <a href="${relativePathPrefix}index.html#section-directory" class="hover:text-indigo-400 transition-colors">All Tools</a>
+          <a href="${relativePathPrefix}tools/index.html" class="hover:text-indigo-400 transition-colors">All Tools</a>
           <button onclick="openSubmitModal()" class="hover:text-indigo-400 text-indigo-400 font-semibold transition-colors flex items-center gap-1.5 bg-indigo-600/10 hover:bg-indigo-600/20 px-3 py-1.5 rounded-lg border border-indigo-500/30">
             <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Submit Tool
           </button>
