@@ -1299,11 +1299,11 @@ $allToolsHTML = @"
         </nav>
         
 <!-- DIRECTORY PAGE SECTION -->
-        <div id="section-directory" class="hidden space-y-6">
+        <div id="section-directory" class="space-y-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-6 rounded-2xl">
             <div>
-              <h1 class="text-3xl font-bold tracking-tight text-white" id="dir-title">All AI Tools</h1>
-              <p class="text-zinc-400 text-sm mt-1" id="dir-count">Loading $($tools.Count) tools...</p>
+              <h1 class="text-3xl font-bold tracking-tight text-white" id="dir-title">Explore All AI Tools</h1>
+              <p class="text-zinc-400 text-sm mt-1" id="dir-count">Browse 70+ AI tools across all categories.</p>
             </div>
 
             <div class="relative w-full sm:w-80">
@@ -1358,7 +1358,6 @@ $allToolsHTML = @"
     let activePricingFilter = 'all';
 
     function initApp() {
-      document.getElementById('section-directory').classList.remove('hidden');
       renderCategoryPills();
       renderDirectoryTools();
 
@@ -1380,7 +1379,7 @@ $allToolsHTML = @"
       renderDirectoryTools();
       const cat = CATEGORIES.find(c => c.slug === slug);
       const titleEl = document.getElementById('dir-title');
-      if (titleEl) titleEl.innerText = cat ? cat.name : "All AI Tools";
+      if (titleEl) titleEl.innerText = cat ? cat.name : "Explore All AI Tools";
     }
 
     function renderCategoryPills() {
@@ -1425,7 +1424,10 @@ $allToolsHTML = @"
         return matchesCategory && matchesPricing && matchesSearch;
       });
 
-      document.getElementById('dir-count').innerText = \`\ \ available\;
+      const isShowingAll = !currentCat && activePricingFilter === 'all' && !query;
+      document.getElementById('dir-count').innerText = isShowingAll
+        ? 'Browse 70+ AI tools across all categories.'
+        : `${filtered.length} ${filtered.length === 1 ? 'tool' : 'tools'} found`;
       const grid = document.getElementById('directory-tools-grid');
 
       if (filtered.length > 0) {
