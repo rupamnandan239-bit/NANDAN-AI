@@ -404,8 +404,7 @@ for ($i = 0; $i -lt $tools.Count; $i++) {
 
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; width: 100%; background-color: #09090b; color: #fafafa; font-family: ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
-    #bg-video { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 0; pointer-events: none; }
+    html, body { margin: 0; padding: 0; width: 100%; background-color: #0A0A0A; color: #fafafa; font-family: ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
     .app-viewport { position: relative; z-index: 10; min-height: 100vh; }
     .glass-panel { background: rgba(24, 24, 27, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
     .glass-header { background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
@@ -415,9 +414,6 @@ for ($i = 0; $i -lt $tools.Count; $i++) {
 </head>
 <body>
 
-  <video id="bg-video" autoplay loop muted playsinline>
-    <source src="${relPath}background.mp4" type="video/mp4" />
-  </video>
 
   <div class="app-viewport flex flex-col">
     $headerCode
@@ -795,8 +791,7 @@ foreach ($cat in $categories) {
 
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; width: 100%; background-color: #09090b; color: #fafafa; font-family: ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
-    #bg-video { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 0; pointer-events: none; }
+    html, body { margin: 0; padding: 0; width: 100%; background-color: #0A0A0A; color: #fafafa; font-family: ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
     .app-viewport { position: relative; z-index: 10; min-height: 100vh; }
     .glass-panel { background: rgba(24, 24, 27, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
     .glass-header { background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
@@ -805,10 +800,6 @@ foreach ($cat in $categories) {
   </style>
 </head>
 <body>
-
-  <video id="bg-video" autoplay loop muted playsinline>
-    <source src="${relPath}background.mp4" type="video/mp4" />
-  </video>
 
   <div class="app-viewport flex flex-col">
     $headerCode
@@ -1019,8 +1010,7 @@ $homepageHtml = @"
 
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; width: 100%; background-color: #09090b; color: #fafafa; font-family: ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
-    #bg-video { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 0; pointer-events: none; }
+    html, body { margin: 0; padding: 0; width: 100%; background-color: #0A0A0A; color: #fafafa; font-family: ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
     .app-viewport { position: relative; z-index: 10; min-height: 100vh; }
     .glass-panel { background: rgba(24, 24, 27, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
     .glass-header { background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
@@ -1035,9 +1025,6 @@ $homepageHtml = @"
 
 <body>
 
-  <video id="bg-video" autoplay loop muted playsinline>
-    <source src="background.mp4" type="video/mp4" />
-  </video>
 
   <div class="app-viewport flex flex-col">
 
@@ -1269,8 +1256,7 @@ $allToolsHTML = @"
 
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; width: 100%; background-color: #09090b; color: #fafafa; font-family: ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
-    #bg-video { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 0; pointer-events: none; }
+    html, body { margin: 0; padding: 0; width: 100%; background-color: #0A0A0A; color: #fafafa; font-family: ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
     .app-viewport { position: relative; z-index: 10; min-height: 100vh; }
     .glass-panel { background: rgba(24, 24, 27, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
     .glass-header { background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
@@ -1279,9 +1265,6 @@ $allToolsHTML = @"
   </style>
 </head>
 <body>
-  <video id="bg-video" autoplay loop muted playsinline>
-    <source src="../background.mp4" type="video/mp4" />
-  </video>
 
   <div class="app-viewport flex flex-col">
     $(Get-HeaderHTML '../')
