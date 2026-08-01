@@ -61,6 +61,10 @@ function Get-HeaderHTML($relPath) {
     <!-- Mobile Navigation Drawer / Hamburger Menu -->
     <div id="mobile-nav-menu" class="fixed inset-x-0 top-16 z-40 bg-zinc-950/95 backdrop-blur-xl border-b border-zinc-800 p-4 hidden flex-col gap-4 shadow-2xl transition-all sm:hidden">
       <div class="flex flex-col gap-2">
+        <a href="${relPath}index.html" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-indigo-400"></i>
+          Dashboard
+        </a>
         <a href="${relPath}index.html#section-directory" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
           <i data-lucide="grid" class="w-4 h-4 text-cyan-400"></i>
           All Tools
@@ -1088,7 +1092,7 @@ $homepageHtml = @"
       <main class="flex-1 space-y-8 min-w-0">
 
         <!-- HOME SECTION -->
-        <div id="section-home" class="hidden sm:block space-y-8">
+        <div id="section-home" class="space-y-8">
 
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 
@@ -1282,10 +1286,6 @@ $homepageHtml = @"
       renderCategoryPills();
       renderDirectoryTools();
 
-      if (window.innerWidth < 640) {
-        showSection('directory');
-      }
-      
       const urlParams = new URLSearchParams(window.location.search);
       const searchQ = urlParams.get('search');
       if (searchQ) {
@@ -1297,20 +1297,22 @@ $homepageHtml = @"
     }
 
     function showSection(section) {
-      document.getElementById('section-home').classList.add('hidden');
-      document.getElementById('section-directory').classList.add('hidden');
+      const secHome = document.getElementById('section-home');
+      const secDir = document.getElementById('section-directory');
+      if (secHome) secHome.classList.add('hidden');
+      if (secDir) secDir.classList.add('hidden');
 
       const navHome = document.getElementById('nav-home');
       const navDir = document.getElementById('nav-directory');
 
       if (section === 'home') {
-        document.getElementById('section-home').classList.remove('hidden');
-        navHome.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
-        navDir.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
+        if (secHome) secHome.classList.remove('hidden');
+        if (navHome) navHome.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
+        if (navDir) navDir.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
       } else {
-        document.getElementById('section-directory').classList.remove('hidden');
-        navDir.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
-        navHome.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
+        if (secDir) secDir.classList.remove('hidden');
+        if (navDir) navDir.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
+        if (navHome) navHome.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1320,7 +1322,7 @@ $homepageHtml = @"
       const allActive = !activeCategorySlug;
 
       let html = ``
-        <button onclick="filterByCategory(null)" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all `${allActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+        <button type="button" onclick="filterByCategory(null)" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer `${allActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
           All Categories
         </button>
       ``;
@@ -1328,7 +1330,7 @@ $homepageHtml = @"
       html += CATEGORIES.map(cat => {
         const isActive = activeCategorySlug === cat.slug;
         return ``
-          <button onclick="filterByCategory('${cat.slug}')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap `${isActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+          <button type="button" onclick="filterByCategory('`${cat.slug}')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer `${isActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
             `${cat.name}
           </button>
         ``;
