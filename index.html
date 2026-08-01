@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="dark">
 
 <head>
@@ -84,7 +84,7 @@
         <span class="absolute inset-y-0 left-2.5 sm:left-3 flex items-center text-zinc-400 pointer-events-none">
           <i data-lucide="search" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
         </span>
-        <input type="text" id="globalHeaderSearch" oninput="if(typeof handleGlobalSearch==='function'){handleGlobalSearch(this.value)}" onkeydown="if(event.key==='Enter' && typeof handleGlobalSearch!=='function'){location.href='index.html?search=' + encodeURIComponent(this.value)}"
+        <input type="text" id="globalHeaderSearch" oninput="if(typeof handleGlobalSearch==='function'){handleGlobalSearch(this.value)}" onkeydown="if(event.key==='Enter' && typeof handleGlobalSearch!=='function'){location.href='tools/index.html?search=' + encodeURIComponent(this.value)}"
           placeholder="Search AI tools..."
           class="w-full bg-zinc-900/90 border border-zinc-700/60 rounded-lg py-1.5 sm:py-2 pl-8 sm:pl-10 pr-2.5 sm:pr-4 text-xs sm:text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
       </div>
@@ -281,10 +281,10 @@
 
       <main class="flex-1 space-y-8 min-w-0">
 
-        <!-- HOME SECTION -->
-        <div class="flex flex-col gap-8">
+        <!-- HOME SECTION (Desktop only) -->
+        <div class="space-y-8">
 
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 order-2 md:order-1">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 
             <!-- Featured Tool of the Week -->
             <div id="featured-card-container" onclick="window.location.href='tools/chatgpt/index.html'"
@@ -423,7 +423,7 @@
           </div>
 
           <!-- Quick Directory Preview -->
-          <div class="glass-panel rounded-2xl p-6 space-y-4 order-1 md:order-2">
+          <div class="glass-panel rounded-2xl p-6 space-y-4">
             <div class="flex items-center justify-between">
               <h3 class="font-bold text-white text-xl">Top AI Tools</h3>
               <button onclick="window.location.href='tools/index.html'"

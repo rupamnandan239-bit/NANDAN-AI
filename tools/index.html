@@ -46,7 +46,7 @@
         <span class="absolute inset-y-0 left-2.5 sm:left-3 flex items-center text-zinc-400 pointer-events-none">
           <i data-lucide="search" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
         </span>
-        <input type="text" id="globalHeaderSearch" oninput="if(typeof handleGlobalSearch==='function'){handleGlobalSearch(this.value)}" onkeydown="if(event.key==='Enter' && typeof handleGlobalSearch!=='function'){location.href='../index.html?search=' + encodeURIComponent(this.value)}"
+        <input type="text" id="globalHeaderSearch" oninput="if(typeof handleGlobalSearch==='function'){handleGlobalSearch(this.value)}" onkeydown="if(event.key==='Enter' && typeof handleGlobalSearch!=='function'){location.href='../tools/index.html?search=' + encodeURIComponent(this.value)}"
           placeholder="Search AI tools..."
           class="w-full bg-zinc-900/90 border border-zinc-700/60 rounded-lg py-1.5 sm:py-2 pl-8 sm:pl-10 pr-2.5 sm:pr-4 text-xs sm:text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
       </div>
@@ -471,16 +471,80 @@
       renderDirectoryTools();
     }
 
+    function getFuzzyScore(text, query) {
+      if (!query) return 100;
+      const t = (text || '').toLowerCase().replace(/\s+/g, '');
+      const q = query.toLowerCase().replace(/\s+/g, '');
+      if (!t) return 0;
+      if (t === q) return 100;
+      if (t.startsWith(q)) return 90;
+      if (t.includes(q)) return 80;
+      let qIdx = 0;
+      let tIdx = 0;
+      while (qIdx < q.length && tIdx < t.length) {
+        if (q[qIdx] === t[tIdx]) qIdx++;
+        tIdx++;
+      }
+      if (qIdx === q.length) return 50;
+      if (q.length > 3) {
+        const matrix = [];
+        for (let i = 0; i <= t.length; i++) matrix[i] = [i];
+        for (let j = 0; j <= q.length; j++) matrix[0][j] = j;
+        for (let i = 1; i <= t.length; i++) {
+          for (let j = 1; j <= q.length; j++) {
+            if (t.charAt(i-1) == q.charAt(j-1)) matrix[i][j] = matrix[i-1][j-1];
+            else matrix[i][j] = Math.min(matrix[i-1][j-1], matrix[i][j-1], matrix[i-1][j]) + 1;
+          }
+        }
+        if (matrix[t.length][q.length] <= 2) return 40;
+      }
+      return 0;
+    }
+
+    function scoreTool(t, query) {
+      const q = query.toLowerCase().replace(/\s+/g, '');
+      if (!q) return 100;
+      let bestScore = 0;
+      const nameScore = getFuzzyScore(t.name, query);
+      if (nameScore > bestScore) bestScore = nameScore;
+      const catName = t.category || t.categorySlug || '';
+      const catScore = getFuzzyScore(catName, query);
+      if (catScore > 0) {
+        let adjustedCatScore = catScore === 100 ? 75 : 70;
+        if (adjustedCatScore > bestScore) bestScore = adjustedCatScore;
+      }
+      const tags = (t.tags || []).concat(t.keywords || []);
+      for (const tag of tags) {
+        const tagScore = getFuzzyScore(tag, query);
+        if (tagScore > 0) {
+           let adjustedTagScore = tagScore === 100 ? 75 : 65;
+           if (adjustedTagScore > bestScore) bestScore = adjustedTagScore;
+        }
+      }
+      const descScore = getFuzzyScore(t.shortDescription, query);
+      if (descScore > 0) {
+         let adjustedDescScore = descScore === 100 ? 60 : (descScore >= 80 ? 55 : 50);
+         if (adjustedDescScore > bestScore) bestScore = adjustedDescScore;
+      }
+      return bestScore;
+    }
+
     function renderDirectoryTools() {
-      const query = (document.getElementById('dirSearch') ? document.getElementById('dirSearch').value.toLowerCase() : '');
+      const query = (document.getElementById('dirSearch') ? document.getElementById('dirSearch').value : '');
       const currentCat = CATEGORIES.find(c => c.slug === activeCategorySlug);
 
-      const filtered = TOOLS.filter(t => {
+      const scoredTools = TOOLS.map(t => {
         const matchesCategory = currentCat ? (t.categoryId === currentCat.id || t.categorySlug === currentCat.slug) : true;
         const matchesPricing = activePricingFilter === 'all' ? true : t.pricingModel.toLowerCase() === activePricingFilter.toLowerCase();
-        const matchesSearch = t.name.toLowerCase().includes(query) || t.shortDescription.toLowerCase().includes(query);
-        return matchesCategory && matchesPricing && matchesSearch;
-      });
+        let score = 0;
+        if (matchesCategory && matchesPricing) {
+          score = scoreTool(t, query);
+        }
+        return { tool: t, score: score };
+      }).filter(item => item.score > 0);
+
+      scoredTools.sort((a, b) => b.score - a.score);
+      const filtered = scoredTools.map(item => item.tool);
 
       const isShowingAll = !currentCat && activePricingFilter === 'all' && !query;
       document.getElementById('dir-count').innerText = isShowingAll

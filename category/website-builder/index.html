@@ -43,7 +43,7 @@
         <span class="absolute inset-y-0 left-2.5 sm:left-3 flex items-center text-zinc-400 pointer-events-none">
           <i data-lucide="search" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
         </span>
-        <input type="text" id="globalHeaderSearch" oninput="if(typeof handleGlobalSearch==='function'){handleGlobalSearch(this.value)}" onkeydown="if(event.key==='Enter' && typeof handleGlobalSearch!=='function'){location.href='../../index.html?search=' + encodeURIComponent(this.value)}"
+        <input type="text" id="globalHeaderSearch" oninput="if(typeof handleGlobalSearch==='function'){handleGlobalSearch(this.value)}" onkeydown="if(event.key==='Enter' && typeof handleGlobalSearch!=='function'){location.href='../../tools/index.html?search=' + encodeURIComponent(this.value)}"
           placeholder="Search AI tools..."
           class="w-full bg-zinc-900/90 border border-zinc-700/60 rounded-lg py-1.5 sm:py-2 pl-8 sm:pl-10 pr-2.5 sm:pr-4 text-xs sm:text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
       </div>
@@ -280,7 +280,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="category-tools-grid">
                   <div onclick="window.location.href='../../tools/durable-ai/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group tool-card-item" 
-             data-name="durable ai" data-desc="instant website generator for small businesses building complete sites in 30 seconds." data-pricing="freemium">
+             data-name="durable ai" data-desc="instant website generator for small businesses building complete sites in 30 seconds." data-pricing="freemium" data-tags="Website Builder,Instant Website,Small Business,durable.co,instant website generator">
           <div>
             <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
               <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
@@ -305,7 +305,7 @@
           </div>
         </div>
         <div onclick="window.location.href='../../tools/framer-ai/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group tool-card-item" 
-             data-name="framer ai" data-desc="web design tool converting prompt descriptions into responsive published websites." data-pricing="freemium">
+             data-name="framer ai" data-desc="web design tool converting prompt descriptions into responsive published websites." data-pricing="freemium" data-tags="Website Builder,Web Design,Responsive Sites,framer ai,ai landing page builder,framer web design">
           <div>
             <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
               <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
@@ -330,7 +330,7 @@
           </div>
         </div>
         <div onclick="window.location.href='../../tools/hostinger-ai/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group tool-card-item" 
-             data-name="hostinger ai" data-desc="intuitive website building solution equipped with automated page generation and hosting." data-pricing="paid">
+             data-name="hostinger ai" data-desc="intuitive website building solution equipped with automated page generation and hosting." data-pricing="paid" data-tags="Website Builder,Web Hosting,SEO Writer,hostinger ai website builder">
           <div>
             <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
               <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
@@ -355,7 +355,7 @@
           </div>
         </div>
         <div onclick="window.location.href='../../tools/wix-ai/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group tool-card-item" 
-             data-name="wix ai" data-desc="wix's conversational site builder generating tailored web pages and customized themes." data-pricing="freemium">
+             data-name="wix ai" data-desc="wix's conversational site builder generating tailored web pages and customized themes." data-pricing="freemium" data-tags="Website Builder,Site Creator,E-Commerce,wix ai site builder">
           <div>
             <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
               <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
@@ -380,7 +380,7 @@
           </div>
         </div>
         <div onclick="window.location.href='../../tools/dora-ai/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group tool-card-item" 
-             data-name="dora ai" data-desc="3d web design platform turning text prompts into interactive 3d websites." data-pricing="freemium">
+             data-name="dora ai" data-desc="3d web design platform turning text prompts into interactive 3d websites." data-pricing="freemium" data-tags="Website Builder,3D Web Design,Animations,dora ai,3d website builder">
           <div>
             <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
               <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
@@ -405,7 +405,7 @@
           </div>
         </div>
         <div onclick="window.location.href='../../tools/relume-ai/index.html'" class="cursor-pointer glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between group tool-card-item" 
-             data-name="relume ai" data-desc="sitemap and wireframe generator building site blueprints exportable to figma and webflow." data-pricing="freemium">
+             data-name="relume ai" data-desc="sitemap and wireframe generator building site blueprints exportable to figma and webflow." data-pricing="freemium" data-tags="Website Builder,Sitemaps,Wireframes,relume ai,ai sitemap generator">
           <div>
             <div class="flex items-start justify-between gap-2 sm:gap-3 pb-2 sm:pb-3">
               <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
@@ -541,29 +541,94 @@
   <script>
     lucide.createIcons();
 
+    function getFuzzyScore(text, query) {
+      if (!query) return 100;
+      const t = (text || '').toLowerCase().replace(/\s+/g, '');
+      const q = query.toLowerCase().replace(/\s+/g, '');
+      if (!t) return 0;
+      if (t === q) return 100;
+      if (t.startsWith(q)) return 90;
+      if (t.includes(q)) return 80;
+      let qIdx = 0;
+      let tIdx = 0;
+      while (qIdx < q.length && tIdx < t.length) {
+        if (q[qIdx] === t[tIdx]) qIdx++;
+        tIdx++;
+      }
+      if (qIdx === q.length) return 50;
+      if (q.length > 3) {
+        const matrix = [];
+        for (let i = 0; i <= t.length; i++) matrix[i] = [i];
+        for (let j = 0; j <= q.length; j++) matrix[0][j] = j;
+        for (let i = 1; i <= t.length; i++) {
+          for (let j = 1; j <= q.length; j++) {
+            if (t.charAt(i-1) == q.charAt(j-1)) matrix[i][j] = matrix[i-1][j-1];
+            else matrix[i][j] = Math.min(matrix[i-1][j-1], matrix[i][j-1], matrix[i-1][j]) + 1;
+          }
+        }
+        if (matrix[t.length][q.length] <= 2) return 40;
+      }
+      return 0;
+    }
+
     function filterCategoryTools() {
-      const q = document.getElementById('catSearch').value.toLowerCase();
+      const query = document.getElementById('catSearch').value;
       const pricingRadio = document.querySelector('input[name="catPricing"]:checked');
       const p = pricingRadio ? pricingRadio.value.toLowerCase() : 'all';
 
-      const cards = document.querySelectorAll('.tool-card-item');
+      const cards = Array.from(document.querySelectorAll('.tool-card-item'));
       let visible = 0;
 
       cards.forEach(card => {
-        const name = card.getAttribute('data-name');
-        const desc = card.getAttribute('data-desc');
         const pricing = card.getAttribute('data-pricing');
-
-        const matchesSearch = name.includes(q) || desc.includes(q);
         const matchesPricing = p === 'all' || pricing === p;
+        
+        if (!matchesPricing) {
+           card.style.display = 'none';
+           card.score = 0;
+           return;
+        }
+        
+        const q = query.toLowerCase().replace(/\s+/g, '');
+        if (!q) {
+           card.style.display = 'flex';
+           card.score = 100;
+           visible++;
+           return;
+        }
 
-        if (matchesSearch && matchesPricing) {
-          card.style.display = 'flex';
-          visible++;
+        let bestScore = 0;
+        const nameScore = getFuzzyScore(card.getAttribute('data-name'), query);
+        if (nameScore > bestScore) bestScore = nameScore;
+        
+        const tagsStr = card.getAttribute('data-tags') || '';
+        const tags = tagsStr.split(',');
+        for (const tag of tags) {
+           const tagScore = getFuzzyScore(tag, query);
+           if (tagScore > 0) {
+              let adjustedTagScore = tagScore === 100 ? 75 : 65;
+              if (adjustedTagScore > bestScore) bestScore = adjustedTagScore;
+           }
+        }
+        
+        const descScore = getFuzzyScore(card.getAttribute('data-desc'), query);
+        if (descScore > 0) {
+           let adjustedDescScore = descScore === 100 ? 60 : (descScore >= 80 ? 55 : 50);
+           if (adjustedDescScore > bestScore) bestScore = adjustedDescScore;
+        }
+        
+        if (bestScore > 0) {
+           card.style.display = 'flex';
+           card.score = bestScore;
+           visible++;
         } else {
-          card.style.display = 'none';
+           card.style.display = 'none';
+           card.score = 0;
         }
       });
+      
+      const grid = document.getElementById('category-tools-grid');
+      cards.sort((a, b) => b.score - a.score).forEach(card => grid.appendChild(card));
 
       document.getElementById('cat-count-label').innerText = 'Showing ' + visible + ' curated AI tools';
     }
