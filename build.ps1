@@ -52,22 +52,18 @@ function Get-HeaderHTML($relPath) {
           Submit Tool
         </button>
         <button onclick="toggleMobileMenu()" id="mobile-menu-btn" aria-label="Toggle Navigation Menu"
-          class="sm:hidden p-2 text-zinc-300 hover:text-white bg-zinc-800/80 hover:bg-zinc-700 rounded-lg border border-zinc-700/60 transition-colors">
+          class="md:hidden p-2 text-zinc-300 hover:text-white bg-zinc-800/80 hover:bg-zinc-700 rounded-lg border border-zinc-700/60 transition-colors">
           <i data-lucide="menu" class="w-5 h-5" id="mobile-menu-icon"></i>
         </button>
       </div>
     </header>
 
     <!-- Mobile Navigation Drawer / Hamburger Menu -->
-    <div id="mobile-nav-menu" class="fixed inset-x-0 top-16 z-40 bg-zinc-950/95 backdrop-blur-xl border-b border-zinc-800 p-4 hidden flex-col gap-4 shadow-2xl transition-all sm:hidden">
+    <div id="mobile-nav-menu" class="fixed inset-x-0 top-16 z-40 bg-zinc-950/95 backdrop-blur-xl border-b border-zinc-800 p-4 hidden flex-col gap-4 shadow-2xl transition-all md:hidden">
       <div class="flex flex-col gap-2">
-        <a href="${relPath}index.html" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
-          <i data-lucide="layout-dashboard" class="w-4 h-4 text-indigo-400"></i>
-          Dashboard
-        </a>
-        <a href="${relPath}index.html#section-directory" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
+        <a href="${relPath}index.html#section-directory" onclick="if(typeof showSection==='function'){showSection('directory');} toggleMobileMenu();" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-900/80 text-zinc-200 hover:text-white text-sm font-medium border border-zinc-800">
           <i data-lucide="grid" class="w-4 h-4 text-cyan-400"></i>
-          All Tools
+          All AI Tools
         </a>
       </div>
 
@@ -1091,8 +1087,8 @@ $homepageHtml = @"
 
       <main class="flex-1 space-y-8 min-w-0">
 
-        <!-- HOME SECTION -->
-        <div id="section-home" class="space-y-8">
+        <!-- HOME SECTION (Desktop only) -->
+        <div id="section-home" class="hidden md:block space-y-8">
 
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 
@@ -1286,6 +1282,13 @@ $homepageHtml = @"
       renderCategoryPills();
       renderDirectoryTools();
 
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        showSection('directory');
+      } else {
+        showSection('home');
+      }
+
       const urlParams = new URLSearchParams(window.location.search);
       const searchQ = urlParams.get('search');
       if (searchQ) {
@@ -1293,10 +1296,13 @@ $homepageHtml = @"
         if (gh) gh.value = searchQ;
         handleGlobalSearch(searchQ);
       }
-      lucide.createIcons();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
     function showSection(section) {
+      const isMobile = window.innerWidth < 768;
+      const targetSection = isMobile ? 'directory' : section;
+
       const secHome = document.getElementById('section-home');
       const secDir = document.getElementById('section-directory');
       if (secHome) secHome.classList.add('hidden');
@@ -1305,7 +1311,7 @@ $homepageHtml = @"
       const navHome = document.getElementById('nav-home');
       const navDir = document.getElementById('nav-directory');
 
-      if (section === 'home') {
+      if (targetSection === 'home') {
         if (secHome) secHome.classList.remove('hidden');
         if (navHome) navHome.className = "w-full bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium transition-colors";
         if (navDir) navDir.className = "w-full text-zinc-400 hover:bg-zinc-800/60 hover:text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors";
@@ -1317,12 +1323,21 @@ $homepageHtml = @"
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    window.addEventListener('resize', () => {
+      const isMobile = window.innerWidth < 768;
+      const secDir = document.getElementById('section-directory');
+      if (isMobile && secDir && secDir.classList.contains('hidden')) {
+        showSection('directory');
+      }
+    });
+
     function renderCategoryPills() {
       const container = document.getElementById('category-pills');
+      if (!container) return;
       const allActive = !activeCategorySlug;
 
       let html = ``
-        <button type="button" onclick="filterByCategory(null)" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer `${allActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+        <button type="button" onclick="filterByCategory(null)" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 touch-manipulation `${allActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
           All Categories
         </button>
       ``;
@@ -1330,7 +1345,7 @@ $homepageHtml = @"
       html += CATEGORIES.map(cat => {
         const isActive = activeCategorySlug === cat.slug;
         return ``
-          <button type="button" onclick="filterByCategory('`${cat.slug}')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer `${isActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
+          <button type="button" onclick="filterByCategory('`${cat.slug}')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 touch-manipulation `${isActive ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-white'}">
             `${cat.name}
           </button>
         ``;
@@ -1346,7 +1361,8 @@ $homepageHtml = @"
       renderDirectoryTools();
 
       const cat = CATEGORIES.find(c => c.slug === slug);
-      document.getElementById('dir-title').innerText = cat ? cat.name : "All AI Tools";
+      const titleEl = document.getElementById('dir-title');
+      if (titleEl) titleEl.innerText = cat ? cat.name : "All AI Tools";
     }
 
     function setPricingFilter(pricing) {
@@ -1355,11 +1371,10 @@ $homepageHtml = @"
     }
 
     function handleGlobalSearch(query) {
-      if (query.trim().length > 0) {
-        document.getElementById('dirSearch').value = query;
-        showSection('directory');
-        renderDirectoryTools();
-      }
+      const dirSearch = document.getElementById('dirSearch');
+      if (dirSearch) dirSearch.value = query;
+      showSection('directory');
+      renderDirectoryTools();
     }
 
     function renderDirectoryTools() {
